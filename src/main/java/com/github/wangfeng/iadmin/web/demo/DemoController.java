@@ -15,4 +15,11 @@ public class DemoController {
         return "views/demo/index";
     }
 
+    @RequestMapping(value = "/adminlte", method = RequestMethod.GET)
+    public String demoAdminLte() {
+        return "views/demo/adminLte";
+    }
+
+
+
 }
