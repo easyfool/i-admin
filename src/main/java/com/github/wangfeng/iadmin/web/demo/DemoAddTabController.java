@@ -12,26 +12,26 @@ public class DemoAddTabController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String demoAdminLteOpenMenuWithTab() {
-        return "views/demo/addtab/addTab";
+        return "views/demo/closable-tab/addTab";
     }
 
     @RequestMapping(value = "/tab_content", method = RequestMethod.GET)
     public String tab_content() {
-        return "views/demo/addtab/tab_content";
+        return "views/demo/closable-tab/tab_content";
     }
 
     @RequestMapping(value = "/tab_first", method = RequestMethod.GET)
     public String tab_first() {
-        return "views/demo/addtab/tab_first";
+        return "views/demo/closable-tab/tab_first";
     }
 
     @RequestMapping(value = "/tab_second", method = RequestMethod.GET)
     public String tab_second() {
-        return "views/demo/addtab/tab_second";
+        return "views/demo/closable-tab/tab_second";
     }
 
     @RequestMapping(value = "/tab_third", method = RequestMethod.GET)
     public String tab_third() {
-        return "views/demo/addtab/tab_third";
+        return "views/demo/closable-tab/tab_third";
     }
 }

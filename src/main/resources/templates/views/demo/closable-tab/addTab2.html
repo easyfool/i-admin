@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>AdminLTE 2 | Dashboard</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap/v3.3.7/prod/css/bootstrap.min.css}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" th:href="@{/vendor/font-awesome/v4.7.0/css/font-awesome.min.css}">
+    <!-- Theme style -->
+    <link rel="stylesheet" th:href="@{/vendor/AdminLTE/v2.4.18/css/AdminLTE.min.css}">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+<!--    <link rel="stylesheet" th:href="@{/vendor/AdminLTE/v2.4.18/css/skins/_all-skins.min.css}">-->
+    <!--adminlte 默认点击左侧菜单栏，页面显示在右侧。不能以tab形式显示。是用bootstrap tab插件实现tab显示菜单页功能-->
+<!--    <link rel="stylesheet" th:href="@{/vendor/bootstrap-tab/css/bootstrap-tab.css}">-->
+    <link rel="stylesheet" th:href="@{/vendor/bootStrap-addTabs/bootstrap.addtabs.css}" media="screen">
+
+
+
+
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+
+    <!-- Left side column. contains the logo and sidebar -->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+            <!-- sidebar menu: : style can be found in sidebar.less -->
+
+            <ul class="sidebar-menu" data-widget="tree">
+
+                <li class="active treeview">
+                    <a href="#">
+                        <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                        <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li class="active"><a href="../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                        <li><a href="index2.html"><i class="fa fa-circle-o"></i> Dashboard v2</a></li>
+                    </ul>
+                    <ul class="treeview-menu">
+                        <li class="active"><a href="../index.html"><i class="fa fa-circle-o"></i> Dashboard v1</a></li>
+                        <li><a href="#home" data-ajax="true" data-addtab="home"  data-url="/demo/addtab/tab_content">
+                            用户菜单1
+                        </a></li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link nav-toggle" data-addtab="userManager" data-ajax="true" data-url="/demo/addtab/tab_content">
+                                <i class="icon-diamond"></i>
+                                <span class="title">用户管理</span>
+                                <span class="arrow open"></span>
+                            </a>
+                        </li>
+                        <li class="nav-item  ">
+                            <a href="#" class="nav-link nav-toggle" data-addtab="depManager" data-ajax="true" data-url="dep/main">
+                                <i class="icon-puzzle"></i>
+                                <span class="title">部门管理</span>
+                                <span class="arrow"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+
+            </ul>
+
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" role="tab" data-toggle="tab">Home</a></li>
+                <li role="presentation"><a href="#profile" role="tab" data-toggle="tab">Profile</a></li>
+                <li role="presentation"><a href="#messages" role="tab" data-toggle="tab">Messages</a></li>
+                <li role="presentation"><a href="#settings" role="tab" data-toggle="tab">Settings</a></li>
+            </ul>
+
+
+
+<!--            <h1>-->
+<!--                Dashboard-->
+<!--                <small>Control panel</small>-->
+<!--            </h1>-->
+<!--            <ol class="breadcrumb">-->
+<!--                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>-->
+<!--                <li class="active">Dashboard</li>-->
+<!--            </ol>-->
+
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <!-- /.row -->
+            <!-- Main row -->
+            <div class="row">
+                <!-- Left col -->
+                <section class="col-lg-12 col-sm-12 col-md-12 connectedSortable">
+
+                    <!-- 面板区 -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="home"></div>
+                        <div role="tabpanel" class="tab-pane" id="profile">...</div>
+                        <div role="tabpanel" class="tab-pane" id="messages">...</div>
+                        <div role="tabpanel" class="tab-pane" id="settings">...</div>
+                    </div>
+
+                </section>
+                <!-- /.Left col -->
+            </div>
+            <!-- /.row (main row) -->
+
+        </section>
+        <!-- /.content -->
+    </div>
+
+
+
+    <!-- /.control-sidebar -->
+    <!-- Add the sidebar's background. This div must be placed
+         immediately after the control sidebar -->
+    <div class="control-sidebar-bg"></div>
+
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 3 -->
+<script th:src="@{/vendor/jquery/v3.4.1/jquery-3.4.1.min.js}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script th:src="@{/vendor/jquery-ui/jquery-ui.min.js}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button);
+</script>
+<!-- Bootstrap 3.3.7 -->
+<script th:src="@{/vendor/bootstrap/v3.3.7/prod/js/bootstrap.min.js}"></script>
+
+<!--<script th:src="@{/vendor/bootstrap-tab/js/bootstrap-tab.js}"></script>-->
+<script th:src="@{/vendor/bootStrap-addTabs/bootstrap.addtabs.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/vendor/AdminLte/v2.4.18/js/adminlte.min.js}"></script>
+
+
+</body>
+</html>
