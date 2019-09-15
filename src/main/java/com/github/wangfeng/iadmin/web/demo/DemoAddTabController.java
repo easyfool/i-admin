@@ -13,6 +13,7 @@ public class DemoAddTabController {
     @RequestMapping(method = RequestMethod.GET)
     public String demoAdminLteOpenMenuWithTab() {
         return "views/demo/closable-tab/addTab";
+//        return "views/demo/closable-tab/index_iframe";
     }
 
     @RequestMapping(value = "/tab_content", method = RequestMethod.GET)
