@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../lib/bootstrap-3.3.7/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="../lib/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../lib/bootstrapvalidator/dist/css/bootstrapValidator.min.css" rel="stylesheet">
+    <style>
+
+    </style>
+</head>
+
+<body>
+    <h1></h1>
+
+    <form id="form_add_menu_detail" class="form-horizontal center-block" role="form" style="margin:0 auto">
+        <fieldset role="form">
+            <!-- <legend>hello world</legend> -->
+
+            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                <label for="txt_parent_menu_id" class="col-sm-3 control-label">上级菜单</label>
+                <div class="col-sm-5">
+                    <input name="parentId" type="text" class="form-control" id="txt_parent_menu_id" placeholder="上级菜单">
+                </div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6  col-xs-6">
+                <label for="txt_menu_type" class="col-sm-3 control-label">菜单类型</label>
+                <div class="col-sm-5">
+                    <input name="menuType" type="text" class="form-control" id="txt_menu_type" placeholder="菜单类型">
+                </div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                <label for="txt_menu_name" class="col-sm-3 control-label">菜单名称</label>
+                <div class="col-sm-5">
+                    <input name="name" type="text" class="form-control" id="txt_menu_name" placeholder="菜单名称">
+                </div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6  col-xs-6">
+                <label for="txt_menu_url" class="col-sm-3 control-label">链接(Href)</label>
+                <div class="col-sm-5">
+                    <input name="url" type="text" class="form-control" id="txt_menu_url" placeholder="链接(Href)">
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                <label for="txt_menu_sort_order" class="col-sm-3 control-label">排序(降序)</label>
+                <div class="col-sm-5">
+                    <input name="sortOrder" type="text" class="form-control" id="txt_menu_sort_order"
+                        placeholder="排序(降序)">
+                </div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6  col-xs-6">
+                <label for="txt_menu_permission" class="col-sm-3 control-label">权限标识</label>
+                <div class="col-sm-5">
+                    <input name="permission" type="text" class="form-control" id="txt_menu_permission"
+                        placeholder="权限标识">
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 col-sm-6 col-xs-6">
+                <label for="txt_menu_icon" class="col-sm-3 control-label">菜单图标</label>
+                <div class="col-sm-5">
+                    <input type="text" class="form-control" id="txt_menu_icon" placeholder="菜单图标">
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="text-center">
+            <button class="btn btn-default" type="submit">保存</button>
+            <button class="btn btn-default" id="btn_reset" type="reset">重置</button>
+        </div>
+
+
+    </form>
+
+
+</body>
+<footer>
+    <script src="../lib/jquery-3.3.1/jquery-3.3.1.min.js"></script>
+    <script src="../lib/bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
+    <script src="../lib/bootstrapvalidator/dist/js/bootstrapValidator.min.js"></script>
+    <script src="./Ewin.js"></script>
+
+    <script>
+        function initFormValidator() {
+            $('#form_add_menu_detail')
+                .bootstrapValidator({
+                    live:"enabled",
+                    submitButtons: 'button[type="submit"]',
+                    feedbackIcons: {
+                        valid: 'glyphicon glyphicon-ok',
+                        invalid: 'glyphicon glyphicon-remove',
+                        validating: 'glyphicon glyphicon-refresh'
+                    },
+                    fields: {
+                        parentId: {
+                            validators: {
+                                notEmpty: {
+                                    message: '上级菜单不能为空'
+                                }
+                            }
+                        },
+                        menuType: {
+                            validators: {
+                                notEmpty: {
+                                    message: '菜单类型不能为空'
+                                }
+                            }
+                        },
+                        name: {
+                            validators: {
+                                notEmpty: {
+                                    message: '菜单名称不能为空'
+                                }
+                            }
+                        },
+                        permission: {
+                            validators: {
+                                notEmpty: {
+                                    message: '权限标识不能为空'
+                                }
+                            }
+                        }
+                        
+                        
+                    }
+                });
+        }
+        $(document).ready(function () {
+            Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+            if (!e) {
+            //点击取消按钮
+            console.log("cancel");
+            }else{
+            //点击确定按钮
+            console.log("confirm")
+            }
+            });
+             Ewin.alert({message: "提示语句"})
+
+             Ewin.alert({message: "提示语句"}).on(function (e) {
+             if (e) {
+             //TODO
+             }
+             });
+            initFormValidator();
+            $("#btn_reset").click(function(){
+                 $('#form_add_menu_detail').data('bootstrapValidator').resetForm();
+                //  $("#form_add_menu_detail").data('bootstrapValidator').destroy();//会报没有这个方法，很奇怪
+                // $('#form_add_menu_detail').data('bootstrapValidator', null);
+                // $('#form_add_menu_detail').bootstrapValidator();
+            });
+        })
+    </script>
+
+</footer>
+
+</html>
