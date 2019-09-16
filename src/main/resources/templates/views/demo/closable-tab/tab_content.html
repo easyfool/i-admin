@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -80,12 +80,25 @@
     </div>
         </div>
     </div>
+
+<button id="btn_add_inner_tab">添加tab</button>
 </body>
 <footer>
+    <!--tabs-->
+    <script th:src="@{/vendor/adminlte-with-iframe/dist/js/app_iframe.js}"></script>
     <script>
         $(document).ready(function(){
             $("#mobile").blur(function(){
                 console.log("hello world");
+            });
+            $("#btn_add_inner_tab").click(function(){
+                var menuTabs = window.parent.addTabs({
+                    id: '10009',
+                    title: '欢迎页2',
+                    close: false,
+                    url: '/demo/addtab/tab_content?id=1',
+                    targetType: "ajax-tab",
+                });;
             });
         });
     </script>
