@@ -21,7 +21,7 @@
             <br/>
 
             <div id="modal_edit_menu" class="modal fade" tabindex="-1" role="dialog">
-                <input id="txt_modal_type" name="modalType" hidden/>
+<!--                <input id="txt_modal_type" name="modalType" hidden/>-->
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -32,26 +32,25 @@
                         </div>
                         <div class="modal-body">
 
-                            <form id="form_edit_menu">
-                                <input id="txt_ParentId" name="parentId" hidden/>
-                                <input id="txt_menuId" name="id" hidden/>
+                            <form id="form_add_menu_detail">
+                                <input id="txt__add_parentId" name="parentId" hidden/>
                                 <div class="form-group">
                                     <label for="txt_menuName">菜单名称</label>
-                                    <input name="name" type="text" class="form-control" id="txt_menuName"
+                                    <input name="name" type="text" class="form-control"
                                            placeholder="menuName">
                                 </div>
                                 <div class="form-group">
                                     <label for="txt_MenuUrl">url</label>
-                                    <input name="url" type="text" class="form-control" id="txt_MenuUrl"
+                                    <input name="url" type="text" class="form-control"
                                            placeholder="url">
                                 </div>
                                 <div class="form-group">
                                     <label for="txt_icon">图标</label>
-                                    <input name="icon" type="text" class="form-control" id="txt_icon" placeholder="图标">
+                                    <input name="icon" type="text" class="form-control"  placeholder="图标">
                                 </div>
                                 <div class="form-group">
                                     <label for="txt_permission">权限</label>
-                                    <input name="permission" type="text" class="form-control" id="txt_permission"
+                                    <input name="permission" type="text" class="form-control"
                                            placeholder="权限">
                                 </div>
                             </form>
@@ -59,11 +58,55 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button id="btn_save_menu" type="button" class="btn btn-primary">保存</button>
+                            <button id="btn_modal_add_submit_menu" type="button" class="btn btn-primary">保存</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
             </div><!-- /.modal -->
+          <div id="modal_update_menu" class="modal fade" tabindex="-1" role="dialog">
+            <!--                <input id="txt_modal_type" name="modalType" hidden/>-->
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <h4 class="modal-title">更新菜单</h4>
+                </div>
+                <div class="modal-body">
+
+                  <form id="form_udpate_menu_detail">
+                    <input id="txt_update_parentId" name="parentId" hidden/>
+                    <input id="txt_menuId" name="id" hidden/>
+                    <div class="form-group">
+                      <label for="txt_menuName">菜单名称</label>
+                      <input name="name" type="text" class="form-control" id="txt_menuName"
+                          placeholder="menuName">
+                    </div>
+                    <div class="form-group">
+                      <label for="txt_MenuUrl">url</label>
+                      <input name="url" type="text" class="form-control" id="txt_MenuUrl"
+                          placeholder="url">
+                    </div>
+                    <div class="form-group">
+                      <label for="txt_icon">图标</label>
+                      <input name="icon" type="text" class="form-control" id="txt_icon" placeholder="图标">
+                    </div>
+                    <div class="form-group">
+                      <label for="txt_permission">权限</label>
+                      <input name="permission" type="text" class="form-control" id="txt_permission"
+                          placeholder="权限">
+                    </div>
+                  </form>
+
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                  <button id="btn_modal_update_submit_menu" type="button" class="btn btn-primary">保存</button>
+                </div>
+              </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+          </div><!-- /.modal -->
             <!--            <button onclick="test()">选择</button>-->
         </div>
 
@@ -184,24 +227,18 @@
                     // bootstrap-table-treetreegrid.js 插件配置 -- end
                 });
 
-                $("#modal_edit_menu").on("show.bs.modal", function () {
-                    //在show方法后调用
-                    console.log("hello");
 
-                });
-                $("#btn_save_menu").click(function () {
-                    var menuJsonObj = $("#form_edit_menu").serializeFormJSON();
+                $("#btn_modal_add_submit_menu").click(function () {
+                    var menuJsonObj = $("#form_add_menu_detail").serializeFormJSON();
                     console.log("保存按钮数据：" + JSON.stringify(menuJsonObj));
-
-                    var modalType = $("#txt_modal_type").val();
-                    if (modalType === "add") {
-                        addMenuData(menuJsonObj);
-                    } else {
-                        updateMenuData(menuJsonObj);
-                    }
-
-                    // console.log(b);
+                  addMenuData(menuJsonObj);
                 });
+
+              $("#btn_modal_update_submit_menu").click(function () {
+                var menuJsonObj = $("#form_update_menu_detail").serializeFormJSON();
+                console.log("更新数据：" + JSON.stringify(menuJsonObj));
+                updateMenuData(menuJsonObj);
+              });
             });
 
             /**
@@ -218,7 +255,7 @@
                     // dataType: "json",
                     success: function (response) {
                         console.log("menu 新增成功." + JSON.stringify(response));
-                        $("#modal_edit_menu").modal("hide");
+                        $("#form_add_menu_detail").modal("hide");
                         $("#table_menuList").bootstrapTable('refresh');
                     }
                 });
@@ -351,11 +388,8 @@
             }
 
             function add(id) {
-                // alert("add 方法 , id = " + id);
-                $("#txt_ParentId").val(id);
-                $("#txt_modal_type").val("add");
-                $("#modal_edit_menu .modal-title").html("新增菜单");
-                $("#modal_edit_menu").modal("show");
+                $("#txt__add_parentId").val(id);
+                $("#form_add_menu_detail").modal("show");
             }
 
             function del(id) {
@@ -363,13 +397,8 @@
                 $.ajax({
                     type: "GET",
                     url: "/sys/admin/menu/delete/" + id,
-                    // data: JSON.stringify(menu),
-                    // contentType: "application/json",
-                    // contentType: "application/json",
-                    // dataType: "json",
                     success: function (response) {
                         console.log("menu 删除成功." + JSON.stringify(response));
-                        // $("#modal_edit_menu").modal("hide");
                         $("#table_menuList").bootstrapTable('refresh');
                     }
                 });
@@ -378,16 +407,15 @@
 
             function update(row) {
                 console.log(row.name);
-                $("#txt_modal_type").val("update");
                 $("#txt_menuId").val(row.id);
                 // alert("update 方法 , id = " + row.id);
-                $("#txt_ParentId").val(row.parentId);
+                $("#txt_update_parentId").val(row.parentId);
                 $("#txt_menuName").val(row.name);
                 $("#txt_menuUrl").val(row.url);
                 $("#txt_icon").val(row.icon);
                 $("#txt_permission").val(row.permission);
-                $("#modal_edit_menu .modal-title").html("更新菜单");
-                $("#modal_edit_menu").modal("show");
+                // $("#form_update_menu_detail .modal-title").html("更新菜单");
+                $("#form_update_menu_detail").modal("show");
             }
 
 
