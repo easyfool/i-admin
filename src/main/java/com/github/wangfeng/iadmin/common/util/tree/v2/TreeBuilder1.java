@@ -1,25 +1,27 @@
-package com.github.wangfeng.iadmin.common.util.tree;
+package com.github.wangfeng.iadmin.common.util.tree.v2;
 
 import com.alibaba.fastjson.JSON;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import lombok.Data;
 
-public class TreeBuilder {
+public class TreeBuilder1 {
 
     List<Node> nodes = new ArrayList<>();
 
     public String buildTree(List<Node> nodes) {
 
-        TreeBuilder treeBuilder = new TreeBuilder(nodes);
+        TreeBuilder1 treeBuilder = new TreeBuilder1(nodes);
 
         return treeBuilder.buildJSONTree();
     }
 
-    public TreeBuilder() {
+    public TreeBuilder1() {
     }
 
-    public TreeBuilder(List<Node> nodes) {
+    public TreeBuilder1(List<Node> nodes) {
         super();
         this.nodes = nodes;
     }

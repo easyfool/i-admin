@@ -1,6 +1,5 @@
 package com.github.wangfeng.iadmin.common.po.dto;
 
-import com.github.wangfeng.iadmin.common.util.tree.TreeBuilder;
 import lombok.Data;
 
 @Data

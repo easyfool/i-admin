@@ -1,7 +1,8 @@
 package com.github.wangfeng.iadmin.common.po.dto;
 
-import com.github.wangfeng.iadmin.common.util.tree.TreeBuilder;
 import java.util.List;
+
+import com.github.wangfeng.iadmin.common.util.tree.v3.TreeNode;
 import lombok.Data;
 
 //text: '我有一个子节点哦', // 显示文本
@@ -26,8 +27,11 @@ import lombok.Data;
  * 用来构造bootstrap treeview的菜单展示
  */
 @Data
-public class BootstrapTreeviewMenuDTO {
+public class BootstrapTreeviewMenuDTO extends TreeNode {
 
+    private String id;
+    private String parentId;
+    private String name;
     private String text;
     private String icon;
     private String selectedIcon;
@@ -39,7 +43,7 @@ public class BootstrapTreeviewMenuDTO {
 
     private List<String> tags;
 
-    private List<BootstrapTreeviewMenuDTO> nodes;
+    private List nodes;
 
     @Data
     public static class State {
