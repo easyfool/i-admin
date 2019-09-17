@@ -32,8 +32,8 @@
                         </div>
                         <div class="modal-body">
 
-                            <form id="form_add_mentxt_add_parentIdu_detail">
-                                <input id="" name="parentId" hidden/>
+                            <form id="form_add_menu_detail">
+                                <input id="txt_add_parent_menu_id" name="parentId" hidden/>
                                 <div class="form-group">
                                     <label for="txt_menu_name">菜单名称</label>
                                     <input name="name" type="text" class="form-control"
@@ -76,7 +76,7 @@
                 <div class="modal-body">
 
                   <form id="form_update_menu_detail">
-                    <input id="txt_update_parent_d" name="parentId" hidden/>
+                    <input id="txt_update_parent_menu_id" name="parentId" hidden/>
                     <input id="txt_menu_id" name="id" hidden/>
                     <div class="form-group">
                       <label for="txt_menu_name">菜单名称</label>
@@ -324,7 +324,7 @@
             }
 
             function add(id) {
-                $("#txt__add_parent_id").val(id);
+                $("#txt_add_parent_menu_id").val(id);
                 $("#modal_add_menu").modal("show");
             }
 
@@ -348,7 +348,7 @@
             function update(row) {
                 console.log(row.name);
                 $("#txt_menu_id").val(row.id);
-                $("#txt_update_parent_id").val(row.parentId);
+                $("#txt_update_parent_menu_id").val(row.parentId);
                 $("#txt_menu_name").val(row.name);
                 $("#txt_menu_url").val(row.url);
                 $("#txt_icon").val(row.icon);

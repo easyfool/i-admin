@@ -50,7 +50,7 @@
         `permission`, `parent_id`)
         values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{left,jdbcType=BIGINT},
         #{right,jdbcType=BIGINT}, #{level,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR},
-        #{url,jdbcType=VARCHAR}, , #{createBy,jdbcType=VARCHAR},
+        #{url,jdbcType=VARCHAR},  #{createBy,jdbcType=VARCHAR},
         #{updateBy,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
         #{permission,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT})
     </insert>
