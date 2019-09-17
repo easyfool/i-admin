@@ -59,11 +59,11 @@
         // contentType: 'application/json',
         // dataType: 'json',
         queryParams : 'queryParams',
-        queryParamsType: '',//如果queryParamsType = 'limit'，params对象包含：limit，offset，search，sort，order。否则，它包含：pageSize，pageNumber，searchText，sortName，sortOrder。
+        queryParamsType: 'undefined',//如果queryParamsType = 'limit'，params对象包含：limit，offset，search，sort，order。否则，它包含：pageSize，pageNumber，searchText，sortName，sortOrder。
         toolbar: "#toolbar",
         sidePagination: "true",
         showRefresh: true,                  //是否显示刷新按钮
-        pageList: [10, 20, 50, 100, 200, 500], // 如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
+        pageList: [1,2,5,10, 20, 50, 100, 200, 500], // 如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
         pageSize: 10, // 页面数据条数
         pageNumber: 1, // 初始化加载第一页，默认第一页
         sidePagination: 'server', // 设置为服务器端分页     客户端：client

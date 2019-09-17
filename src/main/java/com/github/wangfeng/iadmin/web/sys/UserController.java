@@ -1,12 +1,21 @@
 package com.github.wangfeng.iadmin.web.sys;
 
+import com.github.pagehelper.PageInfo;
 import com.github.wangfeng.iadmin.common.po.dto.AdminSysUserDTO;
-import com.github.wangfeng.iadmin.common.po.dto.AdminSysUserQueryDTO;
+import com.github.wangfeng.iadmin.common.po.dto.AdminSysUserQueryWithPageDTO;
 import com.github.wangfeng.iadmin.common.po.dto.BootstrapTableResultDTO;
+import com.github.wangfeng.iadmin.common.po.entity.AdminSysUserDO;
 import com.github.wangfeng.iadmin.common.response.ResponseResult;
+import com.github.wangfeng.iadmin.service.AdminSysUserService;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.ListUtils;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +27,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 public class UserController {
 
+    @Autowired
+    private AdminSysUserService adminSysUserService;
+
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String userManageHomePage() {
         return "views/sys/user/list";
@@ -25,11 +37,12 @@ public class UserController {
 
     @RequestMapping(value = "/listUsers", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseResult listUsers(@RequestBody AdminSysUserQueryDTO adminSysUserQueryDTO) {
-        List<AdminSysUserDTO> userList = getUserList();
+    public ResponseResult listUsers(@RequestBody AdminSysUserQueryWithPageDTO adminSysUserQueryWithPageDTO) {
+        PageInfo<AdminSysUserDO> userListPage = adminSysUserService.findUserListPage(adminSysUserQueryWithPageDTO);
+
         BootstrapTableResultDTO<AdminSysUserDTO> resultTableData = new BootstrapTableResultDTO<>();
-        resultTableData.setRows(userList);
-        resultTableData.setTotal(Long.valueOf(userList.size()));
+        resultTableData.setRows(buildUserDTOList(userListPage.getList()));
+        resultTableData.setTotal(userListPage.getTotal());
 
         ResponseResult responseResult = new ResponseResult();
         responseResult.setContent(resultTableData);
@@ -37,18 +50,20 @@ public class UserController {
         return responseResult;
     }
 
-    private List<AdminSysUserDTO> getUserList() {
+    private List<AdminSysUserDTO> buildUserDTOList(List<AdminSysUserDO> list) {
+        List<AdminSysUserDTO> resultList = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(list)) {
+            resultList = list.stream().map(model -> {
+                AdminSysUserDTO adminSysUserDTO = new AdminSysUserDTO();
+                BeanUtils.copyProperties(model, adminSysUserDTO);
+                return adminSysUserDTO;
+            }).collect(Collectors.toList());
 
-        AdminSysUserDTO user = new AdminSysUserDTO();
-        user.setId(1L);
-        user.setLoginName("admin");
 
-        AdminSysUserDTO user2 = new AdminSysUserDTO();
-        user2.setId(2L);
-        user2.setLoginName("wangfeng");
-
-        return Arrays.asList(user, user2);
+        }
+        return ListUtils.emptyIfNull(resultList);
     }
+
 
     public ResponseResult addUser() {
         return null;
