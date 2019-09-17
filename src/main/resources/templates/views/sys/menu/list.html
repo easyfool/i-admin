@@ -58,7 +58,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button id="btn_modal_add_submit_menu" type="button" class="btn btn-primary">保存</button>
+                            <button id="btn_submit_modal_add_menu" type="button" class="btn btn-primary">保存</button>
                         </div>
                     </div><!-- /.modal-content -->
                 </div><!-- /.modal-dialog -->
@@ -102,7 +102,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                  <button id="btn_modal_update_submit_menu" type="button" class="btn btn-primary">保存</button>
+                  <button id="btn_submit_modal_update_menu" type="button" class="btn btn-primary">保存</button>
 
                 </div>
               </div><!-- /.modal-content -->
@@ -147,114 +147,17 @@
 
             $(function () {
 
-                //控制台输出一下数据
-                var $table = $('#table_menu_list');
-                // console.log(data);
-                $table.bootstrapTable('destroy');
-                $table.bootstrapTable({
-                    url: "/sys/admin/menu/listMenus",
-                    // type: "POST",
-                    // data:data,
-                    // contentType:"application/x-www-form-urlencoded; charset=UTF-8",
-                    idField: 'id',
-                    // uniqueId:"id",
-                    // dataType:'jsonp',
-                    columns: [
-                        {
-                            field: 'check', checkbox: true, formatter: function (value, row, index) {
-                                if (row.check == true) {
-                                    // console.log(row.serverName);
-                                    //设置选中
-                                    return {checked: true};
-                                }
-                            }
-                        },
-                        {field: 'id', title: '主键',hidden:true},
-                        {field: 'name', title: '名称'},
-                        {field: 'url', title: '链接(Href)'},
-                        {field: 'level', title: '层级'},
-                        {field: 'id', title: '编号', sortable: true, align: 'center'},
-                        {field: 'parentId', title: '上级菜单'},
-                        {field: 'status', title: '状态', sortable: true, align: 'center', formatter: 'statusFormatter'},
-                        {field: 'permission', title: '权限值'},
-                        {
-                            field: 'operate',
-                            title: '操作',
-                            align: 'center',
-                            events: operateEvents,
-                            formatter: 'operateFormatter'
-                        },
-                    ],
+              //初始化菜单treegrid TODO 根节点不展示
+              menuTreegridInit();
 
-                    // bootstrap-table-treegrid.js 插件配置 -- start
-
-                    // //在哪一列展开树形
-                    treeShowField: 'name',
-                    // //指定父id列
-                    parentIdField: 'parentId',
-
-                    onResetView: function (data) {
-
-                      // $("#table_menu_list").bootstrapTable('hideRow', {
-                      //   index: 1
-                      // });
-                        //console.log('load');
-                        $table.treegrid({
-                            initialState: 'collapsed',// 所有节点都折叠
-                            // initialState: 'expanded',// 所有节点都展开，默认展开
-                            treeColumn: 1,
-                            // expanderExpandedClass: 'glyphicon glyphicon-minus',  //图标样式
-                            // expanderCollapsedClass: 'glyphicon glyphicon-plus',
-                            onChange: function () {
-                                $table.bootstrapTable('resetWidth');
-                            }
-                        });
-                      // $("#table_menu_list").bootstrapTable('hideRow', {
-                      //   index: 1
-                      // });
-                        //只展开树形的第一级节点
-                        $table.treegrid('getRootNodes').treegrid('expand');
-
-                    },
-                    onCheck: function (row) {
-                        var datas = $table.bootstrapTable('getData');
-                        // 勾选子类
-                        selectChilds(datas, row, "id", "parentId", true);
-
-                        // 勾选父类
-                        selectParentChecked(datas, row, "id", "parentId")
-
-                        // 刷新数据
-                        $table.bootstrapTable('load', datas);
-                    },
-
-                    onUncheck: function (row) {
-                        var datas = $table.bootstrapTable('getData');
-                        selectChilds(datas, row, "id", "parentId", false);
-                        $table.bootstrapTable('load', datas);
-                    }
-                    // bootstrap-table-treetreegrid.js 插件配置 -- end
-                });
-
-
-              // $('#table_menu_list').bootstrapTable('hideRow', { index:1 });
-
-              // $("#button2").click(function() {
-              //   $("#table_menu_list").bootstrapTable('hideRow', {
-              //     index: 1
-              //   })
-              // })
-              //
-              // $("#table_menu_list").bootstrapTable('hideRow', {index: 1});
-
-
-                $("#btn_modal_add_submit_menu").click(function () {
+              // 新增菜单modal框保存按钮点击
+                $("#btn_submit_modal_add_menu").click(function () {
                     var menuJsonObj = $("#form_add_menu_detail").serializeFormJSON();
                     console.log("保存按钮数据：" + JSON.stringify(menuJsonObj));
                   addMenuData(menuJsonObj);
                 });
 
-              $("#btn_modal_update_submit_menu").click(function () {
+              $("#btn_submit_modal_update_menu").click(function () {
                 var menuJsonObj = $("#form_update_menu_detail").serializeFormJSON();
                 console.log("更新数据：" + JSON.stringify(menuJsonObj));
                 updateMenuData(menuJsonObj);
@@ -262,7 +165,7 @@
             });
 
             /**
-             * 保存按钮数据
+             * 新增菜单
              * @param menu
              */
             function addMenuData(menu) {
@@ -271,15 +174,28 @@
                     url: "/sys/admin/menu/add",
                     data: JSON.stringify(menu),
                     contentType: "application/json",
-                    // contentType: "application/json",
-                    // dataType: "json",
                     success: function (response) {
-                        console.log("menu 新增成功." + JSON.stringify(response));
-                        $("#modal_add_menu").modal("hide");
-                        $("#table_menu_list").bootstrapTable('refresh');
+                      console.log("menu 新增成功." + JSON.stringify(response));
+                      $("#modal_add_menu").modal("hide");
+                      //TODO 查到该节点childrean的最后一个后面，目前查到该节点后面
+                      //TODO 直接插入在treegrid上不能实现，因为要构造树
+                      // var insertIndex = getInsertIndex(menu.parentId);
+                      // $("#table_menu_list").bootstrapTable('insertRow', {index: 2, row: {"id":10,"pid":3,"status":1,"name":"系统管理","permissionValue":"open:system:manage"}});
+                      $("#table_menu_list").bootstrapTable('refresh');
                     }
                 });
             }
+
+            /**
+             * 获取插入节点index
+             * @param menu
+             */
+        function getInsertIndex(parentId){
+
+              var childNodes = $(this.parent).getChildNodes(parentId);
+              console.log("fdsadfads"+childNodes.length);
+
+        }
 
             /**
              * 保存按钮数据
@@ -295,7 +211,7 @@
                     // dataType: "json",
                     success: function (response) {
                         console.log("menu 新增成功." + JSON.stringify(response));
-                        $("#modal_edit_menu").modal("hide");
+                        $("#modal_update_menu").modal("hide");
                         $("#table_menu_list").bootstrapTable('refresh');
                     }
                 });
@@ -305,9 +221,9 @@
             function operateFormatter(value, row, index) {
 
 
-                var addOperation = '<button type="button" class="RoleOfadd btn-small  btn-primary" style="margin-right:15px;"><i class="fa fa-plus" ></i>&nbsp;新增</button>';
-                var updateOperation = '<button type="button" class="RoleOfedit btn-small   btn-primary" style="margin-right:15px;"><i class="fa fa-pencil-square-o" ></i>&nbsp;修改</button>';
-                var removeOperation = '<button type="button" class="RoleOfdelete btn-small   btn-primary" style="margin-right:15px;"><i class="fa fa-trash-o" ></i>&nbsp;删除</button>';
+                var addOperation = '<button type="button" class="RoleOfadd btn-small  btn-primary" style="margin-right:15px;"><i class="fa fa-plus-square-o" ></i>&nbsp;新增</button>';
+                var updateOperation = '<button type="button" class="RoleOfedit btn-small   btn-warning" style="margin-right:15px;"><i class="fa fa-pencil-square-o" ></i>&nbsp;修改</button>';
+                var removeOperation = '<button type="button" class="RoleOfdelete btn-small   btn-danger" style="margin-right:15px;"><i class="fa fa-trash-o" ></i>&nbsp;删除</button>';
                 var operations = [addOperation, updateOperation];
                 if(row.level!==1){
                     operations.push(removeOperation);
@@ -439,6 +355,97 @@
                 $("#txt_permission").val(row.permission);
                 // $("#form_update_menu_detail .modal-title").html("更新菜单");
                 $("#modal_update_menu").modal("show");
+            }
+
+            function menuTreegridInit(){
+              var $table = $('#table_menu_list');
+              $table.bootstrapTable('destroy');
+              $table.bootstrapTable({
+                url: "/sys/admin/menu/listMenus",
+                idField: 'id',
+                // uniqueId:"id",
+                // dataType:'jsonp',
+                showRefresh: true,
+                showToggle: true,
+                locale: "zh-CN",
+                striped: true,
+                queryParamsType:"limit",// offset
+                pagination: true,
+                search:true,
+                columns: [
+                  {
+                    field: 'check', checkbox: true, formatter: function (value, row, index) {
+                      if (row.check == true) {
+                        // console.log(row.serverName);
+                        //设置选中
+                        return {checked: true};
+                      }
+                    }
+                  },
+                  {field: 'id', title: '主键',hidden:true},
+                  {field: 'name', title: '名称'},
+                  {field: 'url', title: '链接(Href)'},
+                  {field: 'level', title: '层级'},
+                  {field: 'id', title: '编号', sortable: true, align: 'center'},
+                  {field: 'parentId', title: '上级菜单'},
+                  {field: 'status', title: '状态', sortable: true, align: 'center', formatter: 'statusFormatter'},
+                  {field: 'permission', title: '权限值'},
+                  {
+                    field: 'operate',
+                    title: '操作',
+                    align: 'center',
+                    events: operateEvents,
+                    formatter: 'operateFormatter'
+                  },
+                ],
+
+                // bootstrap-table-treegrid.js 插件配置 -- start
+
+                // //在哪一列展开树形
+                treeShowField: 'name',
+                // //指定父id列
+                parentIdField: 'parentId',
+                onResetView: function (data) {
+
+                  // $("#table_menu_list").bootstrapTable('hideRow', {
+                  //   index: 1
+                  // });
+                  //console.log('load');
+                  $table.treegrid({
+                    initialState: 'collapsed',// 所有节点都折叠
+                    // initialState: 'expanded',// 所有节点都展开，默认展开
+                    treeColumn: 2,
+                    // expanderExpandedClass: 'glyphicon glyphicon-minus',  //图标样式
+                    // expanderCollapsedClass: 'glyphicon glyphicon-plus',
+                    onChange: function () {
+                      $table.bootstrapTable('resetWidth');
+                    }
+                  });
+                  // $("#table_menu_list").bootstrapTable('hideRow', {
+                  //   index: 1
+                  // });
+                  //只展开树形的第一级节点
+                  $table.treegrid('getRootNodes').treegrid('expand');
+
+                },
+                onCheck: function (row) {
+                  var datas = $table.bootstrapTable('getData');
+                  // 勾选子类
+                  selectChilds(datas, row, "id", "parentId", true);
+
+                  // 勾选父类
+                  selectParentChecked(datas, row, "id", "parentId")
+
+                  // 刷新数据
+                  $table.bootstrapTable('load', datas);
+                },
+
+                onUncheck: function (row) {
+                  var datas = $table.bootstrapTable('getData');
+                  selectChilds(datas, row, "id", "parentId", false);
+                  $table.bootstrapTable('load', datas);
+                }
+              });
             }
 
 
