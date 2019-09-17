@@ -48,28 +48,7 @@ SET FOREIGN_KEY_CHECKS = 1;
  Date: 08/09/2019 22:13:26
 */
 
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
 
--- ----------------------------
--- Table structure for admin_sys_user
--- ----------------------------
-DROP TABLE IF EXISTS `admin_sys_user`;
-CREATE TABLE `admin_sys_user` (
-  `id` bigint(32) unsigned NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '用户名',
-  `password` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '密码',
-  `salt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '加密盐值',
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '邮箱',
-  `status` int(4) NOT NULL DEFAULT '0' COMMENT '数据状态',
-  `create_date` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  `create_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '创建者',
-  `update_date` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `update_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '更新者',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
-
-SET FOREIGN_KEY_CHECKS = 1;
 
 
 INSERT INTO `iadmin`.`admin_sys_menu`(`id`, `name`, `left`, `right`, `level`, `icon`, `url`, `create_date`, `create_by`, `update_date`, `update_by`, `status`, `permission`, `parent_id`) VALUES (1, 'Food1', 1, 22, 1, NULL, NULL, '2019-09-08 20:35:56', NULL, '2019-09-15 22:54:18', NULL, 0, NULL, 0);
