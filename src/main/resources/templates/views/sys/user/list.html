@@ -10,28 +10,95 @@
   <link rel="stylesheet" th:href="@{/vendor/bootstrap-table/v1.15.4/bootstrap-table.min.css}">
   <!-- Font Awesome -->
   <link rel="stylesheet" th:href="@{/vendor/font-awesome/v4.7.0/css/font-awesome.min.css}">
+  <link rel="stylesheet"
+        th:href="@{/vendor/bootstrap-table/v1.15.4/extensions/page-jump-to/bootstrap-table-page-jump-to.min.css}">
+  <style>
+    .box-border {
+      padding: 13px 10px 1px 15px;
+      display: block;
+      margin-top: 15px;
+    }
 
+    #table_admin_sys_user_list {
+      margin-top: 20px
+    }
+
+  </style>
 </head>
 <body>
 
+
 <div class="container">
   <!--查询条件表单-->
-  <form class="form-horizontal" id="form_search">
-    姓名<input name="username" id="name">
-    工号<input name="employeeNum" id="num">
-    <input type="button" value="搜索" onclick="searchUser()">
-    <input type="button" value="重置" onclick="resetUser()">
+  <form class="form-horizontal box-border form-inline" id="form_search" role="form">
+    <div class="form-group col-md-4">
+      <label for="txt_login_name" class="control-label">用户名</label>
+      <input type="text" name="loginName" id="txt_login_name" class="form-control">
+    </div>
+    <div class="form-group  col-md-3">
+      <label for="txt_nick_name" class="control-label">昵称</label>
+      <input type="text" name="nickName" id="txt_nick_name" class="form-control">
+    </div>
+    <div class="form-group">
+      <input id="btn_query" type="button"  value="查询" class="btn btn-primary">
+      <input type="reset"  value="重置" class="btn btn-default">
+    </div>
   </form>
-  <div id="toolbar">
-    <input type="button" value="新增用户" id="addBtn" data-toggle="modal" data-target="#addUserModal"
-           class="btn btn-primary" data-backdrop="false">
-    <input type="button" value="修改用户" id="editBtn" data-toggle="modal" class="btn btn-primary" onclick="editUser()"
-           data-backdrop="false">
-    <input type="button" value="删除用户" id="deleteBtn" data-toggle="modal" class="btn btn-danger" onclick="deleteUser()">
-  </div>
+
+  <!--  <div id="toolbar">-->
+  <!--    <input type="button" value="新增用户" id="addBtn" data-toggle="modal" data-target="#addUserModal"-->
+  <!--           class="btn btn-primary" data-backdrop="false">-->
+  <!--    <input type="button" value="修改用户" id="editBtn" data-toggle="modal" class="btn btn-primary" onclick="editUser()"-->
+  <!--           data-backdrop="false">-->
+  <!--    <input type="button" value="删除用户" id="deleteBtn" data-toggle="modal" class="btn btn-danger" onclick="deleteUser()">-->
+  <!--  </div>-->
 
   <!-- 加载bootstraptable的表格 -->
-  <table id="table_admin_sys_user_list"></table>
+  <table id="table_admin_sys_user_list" data-show-jump-to="true"></table>
+
+  <div id="modal_add_user" class="modal fade" tabindex="-1" role="dialog">
+    <!--                <input id="txt_modal_type" name="modalType" hidden/>-->
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">新增用户</h4>
+        </div>
+        <div class="modal-body">
+
+          <form id="form_add_menu_detail">
+            <input id="txt__add_parentId" name="parentId" hidden/>
+            <div class="form-group">
+              <label for="txt_menuName">菜单名称</label>
+              <input name="name" type="text" class="form-control"
+                     placeholder="menuName">
+            </div>
+            <div class="form-group">
+              <label for="txt_MenuUrl">url</label>
+              <input name="url" type="text" class="form-control"
+                     placeholder="url">
+            </div>
+            <div class="form-group">
+              <label for="txt_icon">图标</label>
+              <input name="icon" type="text" class="form-control"  placeholder="图标">
+            </div>
+            <div class="form-group">
+              <label for="txt_permission">权限</label>
+              <input name="permission" type="text" class="form-control"
+                     placeholder="权限">
+            </div>
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button id="btn_submit_modal_add_menu" type="button" class="btn btn-primary">保存</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 
 
 </div>
@@ -43,12 +110,18 @@
   <script th:src="@{/vendor/bootstrap/v3.3.7/prod/js/bootstrap.min.js}"></script>
   <script th:src="@{/vendor/bootstrap-table/v1.15.4/bootstrap-table.min.js}"></script>
   <script th:src="@{/vendor/bootstrap-table/v1.15.4/locale/bootstrap-table-zh-CN.min.js}"></script>
+  <script
+      th:src="@{/vendor/bootstrap-table/v1.15.4/extensions/page-jump-to/bootstrap-table-page-jump-to.min.js}"></script>
   <script th:src="@{/js/formSerializeToJson.js}"></script>
 
   <script>
     $(document).ready(function () {
       //1. 初始化bootstrap-table
       initAdminSysUserTable();
+      $("#btn_query").click(function(){
+        console.log("jiazai ");
+        $("#table_admin_sys_user_list").bootstrapTable('refresh');
+      });
     });
 
     //1. 初始化bootstrap-table
@@ -58,12 +131,14 @@
         method: 'post',
         // contentType: 'application/json',
         // dataType: 'json',
-        queryParams : 'queryParams',
+        queryParams: 'queryParams',
         queryParamsType: 'undefined',//如果queryParamsType = 'limit'，params对象包含：limit，offset，search，sort，order。否则，它包含：pageSize，pageNumber，searchText，sortName，sortOrder。
         toolbar: "#toolbar",
+        locale: "zh-CN",
         sidePagination: "true",
+        // showJumpTo: "true",
         showRefresh: true,                  //是否显示刷新按钮
-        pageList: [1,2,5,10, 20, 50, 100, 200, 500], // 如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
+        pageList: [1, 2, 5, 10, 20, 50, 100, 200, 500], // 如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
         pageSize: 10, // 页面数据条数
         pageNumber: 1, // 初始化加载第一页，默认第一页
         sidePagination: 'server', // 设置为服务器端分页     客户端：client
@@ -82,7 +157,7 @@
         columns: [{
           checkbox: true, // 显示一个勾选框
           align: 'center' // 居中显示
-        },{
+        }, {
           field: 'id',
           visible: false,
           title: 'ID'
@@ -130,7 +205,7 @@
           },
 
         ],
-        responseHandler: function(response){
+        responseHandler: function (response) {
           // response.content.total=100;
           return response.content;
         }
@@ -138,20 +213,22 @@
     }
 
     function queryParams(params) { // 请求服务器数据时发送的参数，可以在这里添加额外的查询参数，返回false则终止请求
-      return {
-        limit: params.limit, // 每页要显示的数据条数
-        pageSize: params.pageSize, // 每页要显示的数据条数
-        // currentPage: params.offset / params.limit + 1, // 每页显示数据的开始行号
-        offset: params.offset,
-        pageNumber: params.pageNumber,
-        sort: params.sort, // 要排序的字段
-        sortOrder: params.order, // 排序规则
-        //dataId: $("#dataId").val() // 额外添加的参数
-        // search: params.search, //搜索框内容
-      }
+      var $searchForm = $("#form_search").serializeFormJSON();
+      $searchForm.pageSize = params.pageSize;
+      $searchForm.pageNumber = params.pageNumber;
+      return $searchForm;
+      // return {
+      //   limit: params.limit, // 每页要显示的数据条数
+      //   pageSize: params.pageSize, // 每页要显示的数据条数
+      //   // currentPage: params.offset / params.limit + 1, // 每页显示数据的开始行号
+      //   offset: params.offset,
+      //   pageNumber: params.pageNumber,
+      //   sort: params.sort, // 要排序的字段
+      //   sortOrder: params.order, // 排序规则
+      //   //dataId: $("#dataId").val() // 额外添加的参数
+      //   // search: params.search, //搜索框内容
+      // }
     }
-
-
 
     function sexFormatter(value, row, index) {
 
@@ -176,9 +253,11 @@
       // }
       // return operations.join('');
       return [
-        '<button type="button" class="RoleOfadd btn-small  btn-primary" style="margin-right:15px;"><i class="fa fa-plus" ></i>&nbsp;新增</button>',
-        '<button type="button" class="RoleOfedit btn-small   btn-primary" style="margin-right:15px;"><i class="fa fa-pencil-square-o" ></i>&nbsp;修改</button>',
-        '<button type="button" class="RoleOfdelete btn-small   btn-primary" style="margin-right:15px;"><i class="fa fa-trash-o" ></i>&nbsp;删除</button>'
+        '<button type="button" class="RoleOfadd btn-small  btn-primary" style="margin-right:15px;"><i class="fa fa-plus-square-o" ></i>&nbsp;新增</button>',
+        '<button type="button" class="RoleOfedit btn-small   btn-warning" style="margin-right:15px;"><i class="fa fa-pencil-square-o" ></i>&nbsp;修改</button>',
+        '<button type="button" class="RoleOfdelete btn-small  btn-danger" style="margin-right:15px;"><i class="fa fa-trash-o" ></i>&nbsp;删除</button>',
+        '<button type="button" class="RoleOfdelete btn-small  btn-primary" style="margin-right:15px;"><i class="fa fa-group" ></i>&nbsp;分配角色</button>',
+        '<button type="button" class="RoleOfdelete btn-small  btn-danger" style="margin-right:15px;"><i class="fa fa-key" ></i>&nbsp;重置密码</button>'
       ].join('');
 
     }
