@@ -24,13 +24,13 @@
       `nick_name`, `real_name`, `password`, 
       `salt`, `mobile`, `email`, 
       `sex`, `remark`, `status`, 
-      `create_date`, `create_by`, `update_date`, 
+       `create_by`,
       `update_by`)
     values (#{id,jdbcType=BIGINT}, #{userCode,jdbcType=VARCHAR}, #{loginName,jdbcType=VARCHAR}, 
       #{nickName,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{salt,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{sex,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+       #{createBy,jdbcType=VARCHAR},
       #{updateBy,jdbcType=VARCHAR})
   </insert>
   <select id="selectAll" resultMap="BaseResultMap">

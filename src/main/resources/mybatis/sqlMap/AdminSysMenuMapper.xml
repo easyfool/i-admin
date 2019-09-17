@@ -45,13 +45,13 @@
         -->
         insert into `admin_sys_menu` (`id`, `name`, `left`,
         `right`, `level`, `icon`,
-        `url`, `create_date`, `create_by`,
-        `update_date`, `update_by`, `status`,
+        `url`,  `create_by`,
+         `update_by`, `status`,
         `permission`, `parent_id`)
         values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{left,jdbcType=BIGINT},
         #{right,jdbcType=BIGINT}, #{level,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR},
-        #{url,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR},
-        #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+        #{url,jdbcType=VARCHAR}, , #{createBy,jdbcType=VARCHAR},
+        #{updateBy,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
         #{permission,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT})
     </insert>
     <update id="updateByPrimaryKey" parameterType="com.github.wangfeng.iadmin.common.po.entity.AdminSysMenuDO">
@@ -119,7 +119,7 @@
         `update_date`, `update_by`, `status`, `permission`, `parent_id`
         from `admin_sys_menu`
     </select>
-    <select id="listDescendantMenus" resultType="adminSysMenuDO">
+    <select id="listDescendantMenus" resultType="com.github.wangfeng.iadmin.common.po.entity.AdminSysMenuDO">
         select * from `admin_sys_menu`
         where `left` &gt; #{left} and `right` &lt; #{right}
         <if test="status!=null and status!=''">
@@ -127,7 +127,7 @@
         </if>
         order by `left` asc
     </select>
-    <select id="listAncestralMenus" resultType="adminSysMenuDO">
+    <select id="listAncestralMenus" resultType="com.github.wangfeng.iadmin.common.po.entity.AdminSysMenuDO">
         select * from admin_sys_menu
         where `left` &lt; #{left}
         and `right` &gt; #{right}

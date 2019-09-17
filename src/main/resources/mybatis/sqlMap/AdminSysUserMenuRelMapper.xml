@@ -12,14 +12,14 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
   </resultMap>
-  <insert id="insert" parameterType="com.github.wangfeng.iadmin.common.po.entity.AdminSysUserMenuRelDO">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.github.wangfeng.iadmin.common.po.entity.AdminSysUserMenuRelDO">
     insert into `admin_sys_user_menu_rel` (`id`, `user_id`, `menu_id`, 
-      `remark`, `status`, `create_date`, 
-      `create_by`, `update_date`, `update_by`
+      `remark`, `status`,
+      `create_by`,  `update_by`
       )
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{menuId,jdbcType=BIGINT}, 
-      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{createBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+      #{createBy,jdbcType=VARCHAR},  #{updateBy,jdbcType=VARCHAR}
       )
   </insert>
   <select id="selectAll" resultMap="BaseResultMap">

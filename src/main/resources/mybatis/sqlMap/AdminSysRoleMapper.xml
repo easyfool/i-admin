@@ -13,14 +13,14 @@
     <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
-  <insert id="insert" parameterType="com.github.wangfeng.iadmin.common.po.entity.AdminSysRoleDO">
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.github.wangfeng.iadmin.common.po.entity.AdminSysRoleDO">
     insert into `admin_sys_role` (`id`, `role_code`, `role_name`, 
       `role_sort`, `remarks`, `create_by`, 
-      `create_date`, `update_by`, `update_date`, 
+      `update_by`,
       `status`)
     values (#{id,jdbcType=BIGINT}, #{roleCode,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, 
       #{roleSort,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR}, #{createBy,jdbcType=VARCHAR}, 
-      #{createDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, 
+       #{updateBy,jdbcType=VARCHAR},
       #{status,jdbcType=INTEGER})
   </insert>
   <select id="selectAll" resultMap="BaseResultMap">
