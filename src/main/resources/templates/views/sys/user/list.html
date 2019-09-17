@@ -32,18 +32,20 @@
   <!--查询条件表单-->
   <form class="form-horizontal box-border form-inline" id="form_search" role="form">
     <div class="form-group col-md-4">
-      <label for="txt_login_name" class="control-label">用户名</label>
-      <input type="text" name="loginName" id="txt_login_name" class="form-control">
+      <label for="txt_query_login_name" class="control-label">用户名</label>
+      <input type="text" name="loginName" id="txt_query_login_name" class="form-control">
     </div>
     <div class="form-group  col-md-3">
-      <label for="txt_nick_name" class="control-label">昵称</label>
-      <input type="text" name="nickName" id="txt_nick_name" class="form-control">
+      <label for="txt_query_nick_name" class="control-label">昵称</label>
+      <input type="text" name="nickName" id="txt_query_nick_name" class="form-control">
     </div>
     <div class="form-group">
       <input id="btn_query" type="button"  value="查询" class="btn btn-primary">
       <input type="reset"  value="重置" class="btn btn-default">
     </div>
   </form>
+
+    <button id="btn_add_user" type="button" class="RoleOfadd btn-small  btn-primary" style="margin-right:15px;"><i class="fa fa-plus-square-o" ></i>&nbsp;新增</button>
 
   <!--  <div id="toolbar">-->
   <!--    <input type="button" value="新增用户" id="addBtn" data-toggle="modal" data-target="#addUserModal"-->
@@ -68,33 +70,106 @@
         </div>
         <div class="modal-body">
 
-          <form id="form_add_menu_detail">
-            <input id="txt__add_parentId" name="parentId" hidden/>
+          <form id="form_add_user_detail">
             <div class="form-group">
-              <label for="txt_menuName">菜单名称</label>
-              <input name="name" type="text" class="form-control"
-                     placeholder="menuName">
+              <label>用户名</label>
+              <input name="loginName" type="text" class="form-control"
+                     placeholder="用户名">
             </div>
             <div class="form-group">
-              <label for="txt_MenuUrl">url</label>
-              <input name="url" type="text" class="form-control"
-                     placeholder="url">
+              <label>性别</label>
+              <input name="sex" type="text" class="form-control"
+                     placeholder="性别">
             </div>
             <div class="form-group">
-              <label for="txt_icon">图标</label>
-              <input name="icon" type="text" class="form-control"  placeholder="图标">
+              <label>真实姓名</label>
+              <input name="realName" type="text" class="form-control"  placeholder="真实姓名">
             </div>
             <div class="form-group">
-              <label for="txt_permission">权限</label>
-              <input name="permission" type="text" class="form-control"
-                     placeholder="权限">
+              <label>昵称</label>
+              <input name="nickName" type="text" class="form-control"
+                     placeholder="昵称">
+            </div>
+            <div class="form-group">
+              <label>手机号码</label>
+              <input name="mobile" type="text" class="form-control"
+                     placeholder="手机号码">
+            </div>
+            <div class="form-group">
+              <label>邮箱</label>
+              <input name="email" type="text" class="form-control"
+                     placeholder="邮箱">
+            </div>
+            <div class="form-group">
+              <label>备注</label>
+              <input name="remark" type="text" class="form-control"
+                     placeholder="备注">
             </div>
           </form>
 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button id="btn_submit_modal_add_menu" type="button" class="btn btn-primary">保存</button>
+          <button id="btn_submit_modal_add_user" type="button" class="btn btn-primary">保存</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div id="modal_update_user" class="modal fade" tabindex="-1" role="dialog">
+    <!--                <input id="txt_modal_type" name="modalType" hidden/>-->
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">更新用户</h4>
+        </div>
+        <div class="modal-body">
+
+          <form id="form_update_user_detail">
+              <input id="txt_user_id" name="id" hidden/>
+            <div class="form-group">
+              <label>用户名</label>
+              <input name="loginName" id="txt_login_name" type="text" class="form-control"
+                     placeholder="用户名">
+            </div>
+            <div class="form-group">
+              <label>性别</label>
+              <input name="sex" id="txt_sex" type="text" class="form-control"
+                     placeholder="性别">
+            </div>
+            <div class="form-group">
+              <label>真实姓名</label>
+              <input name="realName" id="txt_real_name" type="text" class="form-control"  placeholder="真实姓名">
+            </div>
+            <div class="form-group">
+              <label>昵称</label>
+              <input name="nickName" id="txt_nick_name" type="text" class="form-control"
+                     placeholder="昵称">
+            </div>
+            <div class="form-group">
+              <label>手机号码</label>
+              <input name="mobile" id="txt_mobile" type="text" class="form-control"
+                     placeholder="手机号码">
+            </div>
+            <div class="form-group">
+              <label>邮箱</label>
+              <input name="email" id="txt_email" type="text" class="form-control"
+                     placeholder="邮箱">
+            </div>
+            <div class="form-group">
+              <label>备注</label>
+              <input name="remark" id="remark" type="text" class="form-control"
+                     placeholder="备注">
+            </div>
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button id="btn_submit_modal_update_user" type="button" class="btn btn-primary">保存</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -119,10 +194,67 @@
       //1. 初始化bootstrap-table
       initAdminSysUserTable();
       $("#btn_query").click(function(){
-        console.log("jiazai ");
         $("#table_admin_sys_user_list").bootstrapTable('refresh');
       });
+      // 新增菜单modal框保存按钮点击
+      $("#btn_submit_modal_add_user").click(function () {
+        var menuJsonObj = $("#form_add_user_detail").serializeFormJSON();
+        console.log("保存数据：" + JSON.stringify(menuJsonObj));
+        addUserData(menuJsonObj);
+      });
+
+      $("#btn_submit_modal_update_user").click(function () {
+        var menuJsonObj = $("#form_update_user_detail").serializeFormJSON();
+        console.log("更新数据：" + JSON.stringify(menuJsonObj));
+        updateUserData(menuJsonObj);
+      });
+      $("#btn_add_user").click(function(){
+          $("#modal_add_user").modal("show");
+
+      });
     });
+
+    /**
+     * 新增用户
+     * @param user
+     */
+    function addUserData(user) {
+      $.ajax({
+        type: "post",
+        url: "/sys/admin/user/add",
+        data: JSON.stringify(user),
+        contentType: "application/json",
+        success: function (response) {
+          console.log("新增成功." + JSON.stringify(response));
+          $("#modal_add_user").modal("hide");
+          //TODO 查到该节点childrean的最后一个后面，目前查到该节点后面
+          //TODO 直接插入在treegrid上不能实现，因为要构造树
+          // var insertIndex = getInsertIndex(menu.parentId);
+          // $("#table_menu_list").bootstrapTable('insertRow', {index: 2, row: {"id":10,"pid":3,"status":1,"name":"系统管理","permissionValue":"open:system:manage"}});
+          $("#table_admin_sys_user_list").bootstrapTable('refresh');
+        }
+      });
+    }
+
+    /**
+     * 保存
+     * @param menu
+     */
+    function updateUserData(user) {
+        $.ajax({
+            type: "post",
+            url: "/sys/admin/user/update",
+            data: JSON.stringify(user),
+            contentType: "application/json",
+            // contentType: "application/json",
+            // dataType: "json",
+            success: function (response) {
+                console.log("新增成功." + JSON.stringify(response));
+                $("#modal_update_user").modal("hide");
+                $("#table_admin_sys_user_list").bootstrapTable('refresh');
+            }
+        });
+    }
 
     //1. 初始化bootstrap-table
     function initAdminSysUserTable() {
@@ -197,11 +329,12 @@
             formatter: 'sexFormatter'
           },
           {
-            field: 'price',
+            field: 'operate',
             title: '操作',
             align: 'center',
+              events: operateEvents,
             valign: 'middle',
-            formatter: operateFormatter,
+            formatter: 'operateFormatter',
           },
 
         ],
@@ -253,7 +386,7 @@
       // }
       // return operations.join('');
       return [
-        '<button type="button" class="RoleOfadd btn-small  btn-primary" style="margin-right:15px;"><i class="fa fa-plus-square-o" ></i>&nbsp;新增</button>',
+
         '<button type="button" class="RoleOfedit btn-small   btn-warning" style="margin-right:15px;"><i class="fa fa-pencil-square-o" ></i>&nbsp;修改</button>',
         '<button type="button" class="RoleOfdelete btn-small  btn-danger" style="margin-right:15px;"><i class="fa fa-trash-o" ></i>&nbsp;删除</button>',
         '<button type="button" class="RoleOfdelete btn-small  btn-primary" style="margin-right:15px;"><i class="fa fa-group" ></i>&nbsp;分配角色</button>',
@@ -264,9 +397,9 @@
 
     //初始化操作按钮的方法
     window.operateEvents = {
-      'click .RoleOfadd': function (e, value, row, index) {
-        add(row.id);
-      },
+      // 'click .RoleOfadd': function (e, value, row, index) {
+      //   add(row.id);
+      // },
       'click .RoleOfdelete': function (e, value, row, index) {
         del(row.id);
       },
@@ -275,6 +408,23 @@
         update(row);
       }
     };
+
+    // function add(id) {
+    //   $("#modal_add_user").modal("show");
+    // }
+
+    function update(row) {
+        console.log(row.name);
+        $("#txt_user_id").val(row.id);
+        $("#txt_login_name").val(row.loginName);
+        $("#txt_real_name").val(row.realName);
+        $("#txt_nick_name").val(row.nickName);
+        $("#txt_email").val(row.email);
+        $("#txt_sex").val(row.sex);
+        $("#txt_mobile").val(row.mobile);
+        // $("#form_update_menu_detail .modal-title").html("更新菜单");
+        $("#modal_update_user").modal("show");
+    }
 
     //操作栏的格式化
     //   function actionFormatter(value, row, index) {

@@ -7,10 +7,12 @@ import com.github.wangfeng.iadmin.common.po.dto.BootstrapTableResultDTO;
 import com.github.wangfeng.iadmin.common.po.entity.AdminSysUserDO;
 import com.github.wangfeng.iadmin.common.response.ResponseResult;
 import com.github.wangfeng.iadmin.service.AdminSysUserService;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
@@ -65,13 +67,29 @@ public class UserController {
     }
 
 
-    public ResponseResult addUser() {
-        return null;
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseResult addUser(@RequestBody AdminSysUserDO adminSysUserDO) {
+
+        adminSysUserService.addUser(adminSysUserDO);
+        ResponseResult responseResult = new ResponseResult();
+        responseResult.setSuccess(Boolean.TRUE);
+        return responseResult;
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseResult updateUser(@RequestBody AdminSysUserDO adminSysUserDO) {
+        adminSysUserService.updateUser(adminSysUserDO);
+        ResponseResult responseResult = new ResponseResult();
+        responseResult.setSuccess(Boolean.TRUE);
+        return responseResult;
     }
 
     public ResponseResult disableUser() {
         return null;
     }
+
 
     public ResponseResult removeUser() {
         return null;
