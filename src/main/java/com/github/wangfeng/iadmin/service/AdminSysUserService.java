@@ -8,4 +8,11 @@ public interface AdminSysUserService {
 
     PageInfo<AdminSysUserDO> findUserListPage(AdminSysUserQueryWithPageDTO adminSysUserQueryDTO);
 
+    AdminSysUserDO addUser(AdminSysUserDO newUser);
+
+    AdminSysUserDO removeUser(AdminSysUserDO userToRemove);
+
+    int updateUser(AdminSysUserDO adminSysUserDO);
+
+
 }
