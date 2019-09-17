@@ -17,10 +17,10 @@
 
         <div class="container">
             <!--            <h1>树形表格 ： Table Treegrid</h1>-->
-            <table id="table_menuList"></table>
+            <table id="table_menu_list"></table>
             <br/>
 
-            <div id="modal_edit_menu" class="modal fade" tabindex="-1" role="dialog">
+          <div id="modal_add_menu" class="modal fade" tabindex="-1" role="dialog">
 <!--                <input id="txt_modal_type" name="modalType" hidden/>-->
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -75,7 +75,7 @@
                 </div>
                 <div class="modal-body">
 
-                  <form id="form_udpate_menu_detail">
+                  <form id="form_update_menu_detail">
                     <input id="txt_update_parentId" name="parentId" hidden/>
                     <input id="txt_menuId" name="id" hidden/>
                     <div class="form-group">
@@ -103,6 +103,7 @@
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                   <button id="btn_modal_update_submit_menu" type="button" class="btn btn-primary">保存</button>
+
                 </div>
               </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -147,7 +148,7 @@
             $(function () {
 
                 //控制台输出一下数据
-                var $table = $('#table_menuList');
+                var $table = $('#table_menu_list');
                 // console.log(data);
                 $table.bootstrapTable('destroy');
                 $table.bootstrapTable({
@@ -156,6 +157,7 @@
                     // data:data,
                     // contentType:"application/x-www-form-urlencoded; charset=UTF-8",
                     idField: 'id',
+                    // uniqueId:"id",
                     // dataType:'jsonp',
                     columns: [
                         {
@@ -167,11 +169,12 @@
                                 }
                             }
                         },
+                        {field: 'id', title: '主键',hidden:true},
                         {field: 'name', title: '名称'},
-                        {field: 'url', title: 'url'},
+                        {field: 'url', title: '链接(Href)'},
                         {field: 'level', title: '层级'},
                         {field: 'id', title: '编号', sortable: true, align: 'center'},
-                        {field: 'parentId', title: '所属上级'},
+                        {field: 'parentId', title: '上级菜单'},
                         {field: 'status', title: '状态', sortable: true, align: 'center', formatter: 'statusFormatter'},
                         {field: 'permission', title: '权限值'},
                         {
@@ -191,6 +194,10 @@
                     parentIdField: 'parentId',
 
                     onResetView: function (data) {
+
+                      // $("#table_menu_list").bootstrapTable('hideRow', {
+                      //   index: 1
+                      // });
                         //console.log('load');
                         $table.treegrid({
                             initialState: 'collapsed',// 所有节点都折叠
@@ -202,7 +209,9 @@
                                 $table.bootstrapTable('resetWidth');
                             }
                         });
-
+                      // $("#table_menu_list").bootstrapTable('hideRow', {
+                      //   index: 1
+                      // });
                         //只展开树形的第一级节点
                         $table.treegrid('getRootNodes').treegrid('expand');
 
@@ -226,6 +235,17 @@
                     }
                     // bootstrap-table-treetreegrid.js 插件配置 -- end
                 });
+
+
+              // $('#table_menu_list').bootstrapTable('hideRow', { index:1 });
+
+              // $("#button2").click(function() {
+              //   $("#table_menu_list").bootstrapTable('hideRow', {
+              //     index: 1
+              //   })
+              // })
+              //
+              // $("#table_menu_list").bootstrapTable('hideRow', {index: 1});
 
 
                 $("#btn_modal_add_submit_menu").click(function () {
@@ -255,8 +275,8 @@
                     // dataType: "json",
                     success: function (response) {
                         console.log("menu 新增成功." + JSON.stringify(response));
-                        $("#form_add_menu_detail").modal("hide");
-                        $("#table_menuList").bootstrapTable('refresh');
+                        $("#modal_add_menu").modal("hide");
+                        $("#table_menu_list").bootstrapTable('refresh');
                     }
                 });
             }
@@ -276,7 +296,7 @@
                     success: function (response) {
                         console.log("menu 新增成功." + JSON.stringify(response));
                         $("#modal_edit_menu").modal("hide");
-                        $("#table_menuList").bootstrapTable('refresh');
+                        $("#table_menu_list").bootstrapTable('refresh');
                     }
                 });
             }
@@ -369,7 +389,7 @@
             }
 
             function test() {
-                var $table = $('#table_menuList');
+                var $table = $('#table_menu_list');
                 var selRows = $table.bootstrapTable("getSelections");
                 if (selRows.length == 0) {
                     alert("请至少选择一行");
@@ -389,33 +409,36 @@
 
             function add(id) {
                 $("#txt__add_parentId").val(id);
-                $("#form_add_menu_detail").modal("show");
+                $("#modal_add_menu").modal("show");
             }
 
             function del(id) {
-                // alert("del 方法 , id = " + id);
-                $.ajax({
-                    type: "GET",
-                    url: "/sys/admin/menu/delete/" + id,
-                    success: function (response) {
-                        console.log("menu 删除成功." + JSON.stringify(response));
-                        $("#table_menuList").bootstrapTable('refresh');
-                    }
-                });
+              // alert("del 方法 , id = " + id);
+              $.ajax({
+                type: "GET",
+                url: "/sys/admin/menu/delete/" + id,
+                success: function (response) {
+                  console.log("menu 删除成功." + JSON.stringify(response));
+                  // $("#table_menu_list").bootstrapTable('refresh');
+                  $('#table_menu_list').bootstrapTable('remove', {
+                    field: "id",   //此处的 “id”对应的是字段名
+                    values: [parseInt(id)]
+                  });
+                }
+              });
 
             }
 
             function update(row) {
                 console.log(row.name);
                 $("#txt_menuId").val(row.id);
-                // alert("update 方法 , id = " + row.id);
                 $("#txt_update_parentId").val(row.parentId);
                 $("#txt_menuName").val(row.name);
                 $("#txt_menuUrl").val(row.url);
                 $("#txt_icon").val(row.icon);
                 $("#txt_permission").val(row.permission);
                 // $("#form_update_menu_detail .modal-title").html("更新菜单");
-                $("#form_update_menu_detail").modal("show");
+                $("#modal_update_menu").modal("show");
             }
 
 
