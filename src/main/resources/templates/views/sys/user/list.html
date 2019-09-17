@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>后台系统用户管理</title>
+  <!-- Bootstrap 3.3.7 -->
+  <link rel="stylesheet" th:href="@{/vendor/bootstrap/v3.3.7/prod/css/bootstrap.min.css}">
+  <link rel="stylesheet" th:href="@{/vendor/bootstrap-table/v1.15.4/bootstrap-table.min.css}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{/vendor/font-awesome/v4.7.0/css/font-awesome.min.css}">
+
+</head>
+<body>
+
+<div class="container">
+  <!--查询条件表单-->
+  <form class="form-horizontal" id="form_search">
+    姓名<input name="username" id="name">
+    工号<input name="employeeNum" id="num">
+    <input type="button" value="搜索" onclick="searchUser()">
+    <input type="button" value="重置" onclick="resetUser()">
+  </form>
+  <div id="toolbar">
+    <input type="button" value="新增用户" id="addBtn" data-toggle="modal" data-target="#addUserModal"
+           class="btn btn-primary" data-backdrop="false">
+    <input type="button" value="修改用户" id="editBtn" data-toggle="modal" class="btn btn-primary" onclick="editUser()"
+           data-backdrop="false">
+    <input type="button" value="删除用户" id="deleteBtn" data-toggle="modal" class="btn btn-danger" onclick="deleteUser()">
+  </div>
+
+  <!-- 加载bootstraptable的表格 -->
+  <table id="table_admin_sys_user_list"></table>
+
+
+</div>
+</body>
+<footer>
+  <!-- jQuery 3 -->
+  <script th:src="@{/vendor/jquery/v1.12.4/jquery-1.12.4.min.js}"></script>
+  <!-- Bootstrap 3.3.7 -->
+  <script th:src="@{/vendor/bootstrap/v3.3.7/prod/js/bootstrap.min.js}"></script>
+  <script th:src="@{/vendor/bootstrap-table/v1.15.4/bootstrap-table.min.js}"></script>
+  <script th:src="@{/vendor/bootstrap-table/v1.15.4/locale/bootstrap-table-zh-CN.min.js}"></script>
+  <script th:src="@{/js/formSerializeToJson.js}"></script>
+
+  <script>
+    $(document).ready(function () {
+      //1. 初始化bootstrap-table
+      initAdminSysUserTable();
+    });
+
+    //1. 初始化bootstrap-table
+    function initAdminSysUserTable() {
+      $('#table_admin_sys_user_list').bootstrapTable({
+        url: '/sys/admin/user/listUsers',
+        method: 'post',
+        // contentType: 'application/json',
+        // dataType: 'json',
+        queryParams : 'queryParams',
+        queryParamsType: '',//如果queryParamsType = 'limit'，params对象包含：limit，offset，search，sort，order。否则，它包含：pageSize，pageNumber，searchText，sortName，sortOrder。
+        toolbar: "#toolbar",
+        sidePagination: "true",
+        showRefresh: true,                  //是否显示刷新按钮
+        pageList: [10, 20, 50, 100, 200, 500], // 如果设置了分页，设置可供选择的页面数据条数。设置为All 则显示所有记录。
+        pageSize: 10, // 页面数据条数
+        pageNumber: 1, // 初始化加载第一页，默认第一页
+        sidePagination: 'server', // 设置为服务器端分页     客户端：client
+        trimOnSearch: true,//设置为 true 将自动去掉搜索字符的前后空格
+        paginationDetailHAlign: 'left',//指定 分页详细信息 在水平方向的位置。'left' 或 'right'。
+        search: false,
+        singleSelect: false,//设置True 将禁止多选
+        striped: true, // 是否显示行间隔色
+        search: "true",
+        uniqueId: "ID",
+        pagination: true, // 在表格底部显示分页组件，默认false
+        pageSize: "1",
+        pagination: true, // 是否分页
+        sortable: true, // 是否启用排序
+        // queryParams: queryParams,
+        columns: [{
+          checkbox: true, // 显示一个勾选框
+          align: 'center' // 居中显示
+        },{
+          field: 'id',
+          visible: false,
+          title: 'ID'
+        },
+          {
+            field: 'userCode',
+            title: '用户编号',
+            visible: false,
+          },
+          {
+            field: 'loginName',
+            title: '用户名'
+          },
+          {
+            field: 'realName',
+            title: '真实姓名',
+            // visible: false,
+          },
+          {
+            field: 'nickName',
+            title: '昵称',
+            visible: false,
+          },
+          {
+            field: 'mobile',
+            title: '手机号码',
+            // hidden:true
+          },
+          {
+            field: 'sex',
+            title: '性别',
+            formatter: 'sexFormatter'
+          },
+          {
+            field: 'status',
+            title: '状态',
+            formatter: 'sexFormatter'
+          },
+          {
+            field: 'price',
+            title: '操作',
+            align: 'center',
+            valign: 'middle',
+            formatter: operateFormatter,
+          },
+
+        ],
+        responseHandler: function(response){
+          // response.content.total=100;
+          return response.content;
+        }
+      });
+    }
+
+    function queryParams(params) { // 请求服务器数据时发送的参数，可以在这里添加额外的查询参数，返回false则终止请求
+      return {
+        limit: params.limit, // 每页要显示的数据条数
+        pageSize: params.pageSize, // 每页要显示的数据条数
+        // currentPage: params.offset / params.limit + 1, // 每页显示数据的开始行号
+        offset: params.offset,
+        pageNumber: params.pageNumber,
+        sort: params.sort, // 要排序的字段
+        sortOrder: params.order, // 排序规则
+        //dataId: $("#dataId").val() // 额外添加的参数
+        // search: params.search, //搜索框内容
+      }
+    }
+
+
+
+    function sexFormatter(value, row, index) {
+
+      if (value === 0) {
+        return '女';
+      } else if (value === 1) {
+        return '男';
+      }
+      return null;
+
+    }
+
+    // 格式化按钮
+    function operateFormatter(value, row, index) {
+
+      // var addOperation = '<button type="button" class="RoleOfadd btn-small  btn-primary" style="margin-right:15px;"><i class="fa fa-plus-square-o" ></i>&nbsp;新增</button>';
+      // var updateOperation = '<button type="button" class="RoleOfedit btn-small   btn-warning" style="margin-right:15px;"><i class="fa fa-pencil-square-o" ></i>&nbsp;修改</button>';
+      // var removeOperation = '<button type="button" class="RoleOfdelete btn-small   btn-danger" style="margin-right:15px;"><i class="fa fa-trash-o" ></i>&nbsp;删除</button>';
+      // var operations = [addOperation, updateOperation];
+      // if(row.level!==1){
+      //   operations.push(removeOperation);
+      // }
+      // return operations.join('');
+      return [
+        '<button type="button" class="RoleOfadd btn-small  btn-primary" style="margin-right:15px;"><i class="fa fa-plus" ></i>&nbsp;新增</button>',
+        '<button type="button" class="RoleOfedit btn-small   btn-primary" style="margin-right:15px;"><i class="fa fa-pencil-square-o" ></i>&nbsp;修改</button>',
+        '<button type="button" class="RoleOfdelete btn-small   btn-primary" style="margin-right:15px;"><i class="fa fa-trash-o" ></i>&nbsp;删除</button>'
+      ].join('');
+
+    }
+
+    //初始化操作按钮的方法
+    window.operateEvents = {
+      'click .RoleOfadd': function (e, value, row, index) {
+        add(row.id);
+      },
+      'click .RoleOfdelete': function (e, value, row, index) {
+        del(row.id);
+      },
+      'click .RoleOfedit': function (e, value, row, index) {
+        console.log("row:" + row.name);
+        update(row);
+      }
+    };
+
+    //操作栏的格式化
+    //   function actionFormatter(value, row, index) {
+    //     var id = value;
+    //     var result = "";
+    //     result += "<a href='javascript:;' class='btn btn-xs green' onclick=\"EditViewById('" + id
+    //         + "', view='view')\" title='查看'><span class='glyphicon glyphicon-search'></span></a>";
+    //     result += "<a href='javascript:;' class='btn btn-xs blue' onclick=\"EditViewById('" + id
+    //         + "')\" title='编辑'><span class='glyphicon glyphicon-pencil'></span></a>";
+    //     result += "<a href='javascript:;' class='btn btn-xs red' onclick=\"DeleteByIds('" + id
+    //         + "')\" title='删除'><span class='glyphicon glyphicon-remove'></span></a>";
+    //     return result;
+    //   }
+    // }
+
+  </script>
+</footer>
+</html>
