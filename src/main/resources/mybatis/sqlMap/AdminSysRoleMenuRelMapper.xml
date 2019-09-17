@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.wangfeng.iadmin.dao.AdminSysRoleMenuRelMapper">
+  <resultMap id="BaseResultMap" type="com.github.wangfeng.iadmin.common.po.entity.AdminSysRoleMenuRelDO">
+    <result column="id" jdbcType="BIGINT" property="id" />
+    <result column="role_id" jdbcType="BIGINT" property="roleId" />
+    <result column="menu_id" jdbcType="BIGINT" property="menuId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+  </resultMap>
+  <insert id="insert" parameterType="com.github.wangfeng.iadmin.common.po.entity.AdminSysRoleMenuRelDO">
+    insert into `admin_sys_role_menu_rel` (`id`, `role_id`, `menu_id`, 
+      `remark`, `status`, `create_date`, 
+      `create_by`, `update_date`, `update_by`
+      )
+    values (#{id,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{menuId,jdbcType=BIGINT}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{createBy,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=VARCHAR}
+      )
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select `id`, `role_id`, `menu_id`, `remark`, `status`, `create_date`, `create_by`, 
+    `update_date`, `update_by`
+    from `admin_sys_role_menu_rel`
+  </select>
+</mapper>
