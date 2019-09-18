@@ -50,6 +50,7 @@ public class RoleController {
     @RequestMapping(value = "/listRoles", method = RequestMethod.POST)
     @ResponseBody
     public ResponseResult listRoles(@RequestBody AdminSysRoleQueryWithPageDTO adminSysRoleQueryWithPageDTO) {
+        log.debug("查询角色列表，模糊查询，查询条件字段{}.",adminSysRoleQueryWithPageDTO);
         PageInfo<AdminSysRoleDO> roleListPage = adminSysRoleService.findListPage(adminSysRoleQueryWithPageDTO);
 
         BootstrapTableResultDTO<AdminSysRoleDTO> resultTableData = new BootstrapTableResultDTO<>();

@@ -13,5 +13,7 @@ public class PageQueryDTO {
     private Integer pageNumber;
     private Integer offset;
 
+    private Integer status;
+
 
 }

@@ -56,5 +56,7 @@ public interface AdminSysRoleMapper {
      */
     int updateByPrimaryKey(AdminSysRoleDO record);
 
-    List<AdminSysRoleDO> selectAll(AdminSysRoleQueryWithPageDTO adminSysRoleQueryWithPageDTO);
+    List<AdminSysRoleDO> selectAllWithFuzzyConditions(AdminSysRoleQueryWithPageDTO adminSysRoleQueryWithPageDTO);
+
+
 }

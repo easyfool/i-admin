@@ -5,4 +5,7 @@ import lombok.Data;
 @Data
 public class AdminSysRoleQueryWithPageDTO extends PageQueryDTO {
 
+    private String roleCode;
+    private String roleName;
+
 }

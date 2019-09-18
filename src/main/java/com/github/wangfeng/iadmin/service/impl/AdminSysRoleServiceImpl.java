@@ -27,7 +27,7 @@ public class AdminSysRoleServiceImpl implements AdminSysRoleService {
         Assert.assertNotNull("pageNumber can not be null", pageNumber);
         Assert.assertNotNull("pageSize can not be null", pageSize);
         PageHelper.startPage(pageNumber, pageSize);
-        List<AdminSysRoleDO> adminSysRoles = adminSysRoleMapper.selectAll(adminSysRoleQueryWithPageDTO);
+        List<AdminSysRoleDO> adminSysRoles = adminSysRoleMapper.selectAllWithFuzzyConditions(adminSysRoleQueryWithPageDTO);
         return new PageInfo<>(adminSysRoles);
     }
 

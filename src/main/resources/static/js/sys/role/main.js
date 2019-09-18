@@ -72,7 +72,7 @@ function initAdminSysRoleTable() {
     },
       {
         field: 'roleCode',
-        title: '角色编号',
+        title: '角色编码',
       },
       {
         field: 'status',
@@ -108,6 +108,7 @@ function queryParams(params) {
   //可根据不同的paramsType的设置取offset pageSize等不同的参数
   $searchForm.pageSize = params.pageSize;
   $searchForm.pageNumber = params.pageNumber;
+  console.log("查询参数:"+JSON.stringify($searchForm));
   return $searchForm;
 }
 
