@@ -95,20 +95,7 @@ function initAdminSysRoleTable() {
   });
 }
 
-/**
- * 格式化状态
- * @param value
- * @param row
- * @param index
- * @returns {string}
- */
-function statusFormatter(value, row, index) {
-  if (value === 0) {
-    return '<span class="label label-success">正常</span>';
-  } else if(value===1){
-    return '<span class="label label-default">删除</span>';
-  }
-}
+
 
 /**
  * bootstrap table 查询参数与自定义查询参数封装，对应bootstrap table 初始化参数 queryParams
