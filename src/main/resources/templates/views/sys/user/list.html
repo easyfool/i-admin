@@ -188,6 +188,7 @@
   <script
       th:src="@{/vendor/bootstrap-table/v1.15.4/extensions/page-jump-to/bootstrap-table-page-jump-to.min.js}"></script>
   <script th:src="@{/js/formSerializeToJson.js}"></script>
+  <script th:src="@{/js/Ewin.js}"></script>
 
   <script>
     $(document).ready(function () {
@@ -409,7 +410,17 @@
       //   add(row.id);
       // },
       'click .RoleOfdelete': function (e, value, row, index) {
-        del(row.id);
+        Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+          if (!e) {
+            //点击取消按钮
+            console.log("cancel");
+          }else{
+            //点击确定按钮
+            console.log("confirm");
+            del(row.id);
+          }
+        });
+
       },
       'click .RoleOfedit': function (e, value, row, index) {
         console.log("row:" + row.name);
