@@ -1,6 +1,7 @@
 package com.github.wangfeng.iadmin.web.sys;
 
 import com.github.pagehelper.PageInfo;
+import com.github.wangfeng.iadmin.common.enums.DataEntityStatusEnum;
 import com.github.wangfeng.iadmin.common.po.dto.AdminSysUserDTO;
 import com.github.wangfeng.iadmin.common.po.dto.AdminSysUserQueryWithPageDTO;
 import com.github.wangfeng.iadmin.common.po.dto.BootstrapTableResultDTO;
@@ -19,6 +20,7 @@ import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -90,9 +92,15 @@ public class UserController {
         return null;
     }
 
-
-    public ResponseResult removeUser() {
-        return null;
+    @RequestMapping(value = "/remove/{userId}", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseResult removeUser(@PathVariable(required = true) Long userId) {
+        AdminSysUserDO userToRemove = new AdminSysUserDO();
+        userToRemove.setId(userId);
+        adminSysUserService.removeUser(userToRemove);
+        ResponseResult responseResult = new ResponseResult();
+        responseResult.setSuccess(Boolean.TRUE);
+        return responseResult;
     }
 
     public ResponseResult lockUser() {
