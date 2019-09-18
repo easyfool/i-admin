@@ -136,7 +136,7 @@ function operateFormatter(value, row, index) {
  * 给角色添加用户
  * */
 function addUsersToRole(roleId){
-  $.cookie("admin.sys.role.add.user.role.id",roleId);//将该行角色id写入cookie，跳转到角色用户分配页面时进行获取
+  $.cookie("admin.sys.role.add.user.role.id",roleId,{ path:'/'});//将该行角色id写入cookie，跳转到角色用户分配页面时进行获取
   //fixme 新打开tab,此处的tab id不能写死，因为菜单配置会发生变化，当后台url发生变化时，需要修改url
   window.parent.addTabs({
     // id: '155555',//注意：此处不能固定写id，会发生变化

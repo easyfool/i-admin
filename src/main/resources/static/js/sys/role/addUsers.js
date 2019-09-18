@@ -6,6 +6,7 @@
 $(document).ready(function () {
   //初始化角色用户列表，现实拥有该角色的用户列表
   initRoleUsersTable();
+  console.log("获取cookie中角色roleId（该roleId由角色列表页点击分配用户按钮时set到cookie[admin.sys.role.add.user.role.id]）:"+$.cookie("admin.sys.role.add.user.role.id"));
 
   //根据roleId+查询条件查询并展现列表
   $("#btn_query").click(function(){
