@@ -28,7 +28,7 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
         Assert.assertNotNull("pageNumber can not be null", pageNumber);
         Assert.assertNotNull("pageSize can not be null", pageSize);
         PageHelper.startPage(pageNumber, pageSize);
-        List<AdminSysUserDO> adminSysUsers = adminSysUserMapper.selectAll();
+        List<AdminSysUserDO> adminSysUsers = adminSysUserMapper.selectAllWithFuzzyConditions(adminSysUserQueryDTO);
         return new PageInfo<>(adminSysUsers);
     }
 

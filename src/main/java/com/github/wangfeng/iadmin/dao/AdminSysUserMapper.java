@@ -1,5 +1,6 @@
 package com.github.wangfeng.iadmin.dao;
 
+import com.github.wangfeng.iadmin.common.po.dto.AdminSysUserQueryWithPageDTO;
 import com.github.wangfeng.iadmin.common.po.entity.AdminSysUserDO;
 
 import java.util.List;
@@ -53,6 +54,6 @@ public interface AdminSysUserMapper {
      */
     int updateByPrimaryKey(AdminSysUserDO record);
 
-    List<AdminSysUserDO> selectAll();
+    List<AdminSysUserDO> selectAllWithFuzzyConditions(AdminSysUserQueryWithPageDTO adminSysUserQueryWithPageDTO);
 
 }
