@@ -7,7 +7,9 @@ import com.github.wangfeng.iadmin.common.po.dto.AdminSysRoleQueryWithPageDTO;
 import com.github.wangfeng.iadmin.common.po.entity.AdminSysRoleDO;
 import com.github.wangfeng.iadmin.dao.AdminSysRoleMapper;
 import com.github.wangfeng.iadmin.service.AdminSysRoleService;
+
 import java.util.List;
+
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,5 +50,15 @@ public class AdminSysRoleServiceImpl implements AdminSysRoleService {
         updateDO.setStatus(DataEntityStatusEnum.STATTUS_DELTED.getStatusCode());
 
         return adminSysRoleMapper.updateByPrimaryKeySelective(updateDO);
+    }
+
+    @Override
+    public long countByRoleCode(String roleCode) {
+        return adminSysRoleMapper.countByRoleCode(roleCode);
+    }
+
+    @Override
+    public long countByRoleName(String roleName) {
+        return adminSysRoleMapper.countByRoleName(roleName);
     }
 }

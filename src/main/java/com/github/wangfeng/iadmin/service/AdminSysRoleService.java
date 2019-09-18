@@ -14,4 +14,8 @@ public interface AdminSysRoleService {
     int updateRole(AdminSysRoleDO updateRole);
 
     int deleteRole(Long roleId);
+
+    long countByRoleCode(String roleCode);
+
+    long countByRoleName(String roleName);
 }

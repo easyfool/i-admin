@@ -4,6 +4,8 @@
 $(document).ready(function () {
   //初始化角色信息分页列表bootstraptable对象
   initAdminSysRoleTable();
+  // 新增角色modal验证初始化
+  initAddFormValidator();
 
   //点击查询根据查询条件按钮查询角色列表信息
   $("#btn_query").click(function(){
@@ -14,7 +16,10 @@ $(document).ready(function () {
   $("#btn_submit_modal_add_role").click(function () {
     var roleJsonObj = $("#form_add_role_detail").serializeFormJSON();
     console.log("保存数据：" + JSON.stringify(roleJsonObj));
-    addRoleData(roleJsonObj);
+    $('#form_add_role_detail').data("bootstrapValidator").validate();
+    var isValid = $('#form_add_role_detail').data("bootstrapValidator").isValid();
+    if(isValid){addRoleData(roleJsonObj);}
+
   });
 
   // 更新角色modal点击保存按钮保存角色信息
@@ -29,6 +34,8 @@ $(document).ready(function () {
     $("#modal_add_role").modal("show");
 
   });
+
+
 });
 
 
@@ -245,4 +252,111 @@ function updateRoleData(role) {
       $("#table_admin_sys_role_list").bootstrapTable('refresh');
     }
   });
+}
+
+
+/**
+ * 新增角色 form 验证
+ */
+function initAddFormValidator(){
+  $('#form_add_role_detail').bootstrapValidator({
+    // 默认的提示消息
+    message: 'This value is not valid',
+    // 表单框里右侧的icon
+    feedbackIcons: {
+      valid: 'glyphicon glyphicon-ok',
+      invalid: 'glyphicon glyphicon-remove',
+      validating: 'glyphicon glyphicon-refresh'
+    },
+    submitHandler: function (validator, form, submitButton) {
+      // 表单提交成功时会调用此方法
+      // validator: 表单验证实例对象
+      // form  jq对象  指定表单对象
+      // submitButton  jq对象  指定提交按钮的对象
+    },
+    fields: {
+      roleName: {
+        message: '角色名称验证失败',
+        validators: {
+          notEmpty: {
+            message: '角色名称不能为空'
+          },
+          stringLength: {
+            min: 3,
+            max: 30,
+            message: '用户名长度必须在3到30之间'
+          },
+
+          // regexp: { //正则表达式
+          //   regexp: /^[a-zA-Z0-9_]+$/,
+          //   message: '用户名只能包含大写、小写、数字和下划线'
+          // },
+          // different: {  //比较
+          //   field: 'username', //需要进行比较的input name值
+          //   message: '密码不能与用户名相同'
+          // },
+          // identical: {  //比较是否相同
+          //   field: 'password',  //需要进行比较的input name值
+          //   message: '两次密码不一致'
+          // },
+          threshold :  3 ,
+
+          remote: { // ajax校验，获得一个json数据（{'valid': true or false}）
+            url: '/sys/admin/role/isRoleNameUnique',       //验证地址
+            delay :  1500,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置1.5秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
+            message: '角色名称已存在',   //提示信息
+            type: 'POST',          //请求方式
+            // data: function(validator){  //自定义提交数据，默认为当前input name值
+            //   return {
+            //     act: 'is_registered',
+            //     username: $("input[name='username']").val()
+            //   };
+            // }
+          }
+        }
+      },
+      roleCode: {
+        message: '角色编码验证失败',
+        validators: {
+          notEmpty: {
+            message: '角色编码不能为空'
+          },
+          stringLength: {
+            min: 6,
+            max: 30,
+            message: '用户名长度必须在6到30之间'
+          },
+
+          // regexp: { //正则表达式
+          //   regexp: /^[a-zA-Z0-9_]+$/,
+          //   message: '用户名只能包含大写、小写、数字和下划线'
+          // },
+          // different: {  //比较
+          //   field: 'username', //需要进行比较的input name值
+          //   message: '密码不能与用户名相同'
+          // },
+          // identical: {  //比较是否相同
+          //   field: 'password',  //需要进行比较的input name值
+          //   message: '两次密码不一致'
+          // },
+          threshold :  6 ,
+
+          remote: { // ajax校验，获得一个json数据（{'valid': true or false}）
+            url: '/sys/admin/role/isRoleCodeUnique',       //验证地址
+            delay :  1500,//每输入一个字符，就发ajax请求，服务器压力还是太大，设置1.5秒发送一次ajax（默认输入一个字符，提交一次，服务器压力太大）
+            message: '角色编码已存在',   //提示信息
+            type: 'POST',          //请求方式
+            // data: function(validator){  //自定义提交数据，默认为当前input name值
+            //   return {
+            //     act: 'is_registered',
+            //     username: $("input[name='username']").val()
+            //   };
+            // }
+          }
+        }
+      }
+
+    }
+  });
+
 }

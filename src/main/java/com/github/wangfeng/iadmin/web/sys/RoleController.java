@@ -1,18 +1,16 @@
 package com.github.wangfeng.iadmin.web.sys;
 
 import com.github.pagehelper.PageInfo;
-import com.github.wangfeng.iadmin.common.po.dto.AdminSysRoleDTO;
-import com.github.wangfeng.iadmin.common.po.dto.AdminSysRoleQueryWithPageDTO;
-import com.github.wangfeng.iadmin.common.po.dto.AdminSysUserDTO;
-import com.github.wangfeng.iadmin.common.po.dto.AdminSysUserQueryWithPageDTO;
-import com.github.wangfeng.iadmin.common.po.dto.BootstrapTableResultDTO;
+import com.github.wangfeng.iadmin.common.po.dto.*;
 import com.github.wangfeng.iadmin.common.po.entity.AdminSysRoleDO;
 import com.github.wangfeng.iadmin.common.po.entity.AdminSysUserDO;
 import com.github.wangfeng.iadmin.common.response.ResponseResult;
 import com.github.wangfeng.iadmin.service.AdminSysRoleService;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.ListUtils;
@@ -40,6 +38,7 @@ public class RoleController {
 
     /**
      * 为角色添加用户
+     *
      * @return
      */
     @RequestMapping(value = "/addUsers", method = RequestMethod.GET)
@@ -50,7 +49,7 @@ public class RoleController {
     @RequestMapping(value = "/listRoles", method = RequestMethod.POST)
     @ResponseBody
     public ResponseResult listRoles(@RequestBody AdminSysRoleQueryWithPageDTO adminSysRoleQueryWithPageDTO) {
-        log.debug("查询角色列表，模糊查询，查询条件字段{}.",adminSysRoleQueryWithPageDTO);
+        log.debug("查询角色列表，模糊查询，查询条件字段{}.", adminSysRoleQueryWithPageDTO);
         PageInfo<AdminSysRoleDO> roleListPage = adminSysRoleService.findListPage(adminSysRoleQueryWithPageDTO);
 
         BootstrapTableResultDTO<AdminSysRoleDTO> resultTableData = new BootstrapTableResultDTO<>();
@@ -88,6 +87,49 @@ public class RoleController {
         ResponseResult responseResult = new ResponseResult();
         responseResult.setSuccess(Boolean.TRUE);
         return responseResult;
+    }
+
+    /**
+     * 校验角色代码是否存在
+     *
+     * @return
+     */
+    @RequestMapping(value = "/isRoleCodeUnique")
+    @ResponseBody
+    public BootstrapValidatorAjaxResultDTO isRoleCodeUnique(String roleCode) {
+        long total = adminSysRoleService.countByRoleCode(roleCode);
+        BootstrapValidatorAjaxResultDTO resultDTO = new BootstrapValidatorAjaxResultDTO();
+
+        if (total > 0) {
+            resultDTO.setValid(Boolean.FALSE);
+        } else {
+            resultDTO.setValid(Boolean.TRUE);
+        }
+
+        return resultDTO;
+
+
+    }
+
+    /**
+     * 校验角色名称是否存在
+     *
+     * @return
+     */
+    @RequestMapping(value = "/isRoleNameUnique")
+    @ResponseBody
+    public BootstrapValidatorAjaxResultDTO isRoleNameUnique(String roleName) {
+        long total = adminSysRoleService.countByRoleName(roleName);
+        BootstrapValidatorAjaxResultDTO resultDTO = new BootstrapValidatorAjaxResultDTO();
+
+        if (total > 0) {
+            resultDTO.setValid(Boolean.FALSE);
+        } else {
+            resultDTO.setValid(Boolean.TRUE);
+        }
+
+        return resultDTO;
+
     }
 
 

@@ -4,6 +4,7 @@ import com.github.wangfeng.iadmin.common.po.dto.AdminSysRoleQueryWithPageDTO;
 import com.github.wangfeng.iadmin.common.po.entity.AdminSysRoleDO;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface AdminSysRoleMapper {
@@ -59,4 +60,7 @@ public interface AdminSysRoleMapper {
     List<AdminSysRoleDO> selectAllWithFuzzyConditions(AdminSysRoleQueryWithPageDTO adminSysRoleQueryWithPageDTO);
 
 
+    long countByRoleName(@Param("roleName") String roleName);
+
+    long countByRoleCode(@Param("roleCode") String roleCode);
 }
