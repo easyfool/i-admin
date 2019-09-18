@@ -900,6 +900,19 @@
                 isHeader: true
             },
             {
+                id:1000,
+                text: "权限设置",
+                icon: "fa fa-cog",
+                children: [
+                    {
+                        id: "800",
+                        text: "角色管理",
+                        icon: "fa fa-book",
+                        url: "/sys/admin/role/list",
+                        targetType: "iframe-tab"
+                    }]
+            },
+            {
                 id: "39",
                 text: "系统设置",
                 icon: "fa fa-cog",
@@ -910,6 +923,13 @@
                         icon: "fa fa-book",
                         url: "/sys/admin/menu/list",
                         targetType: "iframe-tab"
+                    },{
+                        id: '155555',
+                        text: '角色分配用户',
+                        icon: "fa fa-book",
+                        close: true,
+                        url: '/sys/admin/role/addUsers',
+                        targetType: "ajax-tab",
                     },
                     {
                         id: "90012",

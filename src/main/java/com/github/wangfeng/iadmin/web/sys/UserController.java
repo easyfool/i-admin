@@ -54,6 +54,8 @@ public class UserController {
         return responseResult;
     }
 
+
+
     private List<AdminSysUserDTO> buildUserDTOList(List<AdminSysUserDO> list) {
         List<AdminSysUserDTO> resultList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(list)) {

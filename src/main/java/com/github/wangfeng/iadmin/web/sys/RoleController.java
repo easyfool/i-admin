@@ -38,6 +38,15 @@ public class RoleController {
         return "views/sys/role/list";
     }
 
+    /**
+     * 为角色添加用户
+     * @return
+     */
+    @RequestMapping(value = "/addUsers", method = RequestMethod.GET)
+    public String addUsersToRolePage() {
+        return "views/sys/role/addUsers";
+    }
+
     @RequestMapping(value = "/listRoles", method = RequestMethod.POST)
     @ResponseBody
     public ResponseResult listRoles(@RequestBody AdminSysRoleQueryWithPageDTO adminSysRoleQueryWithPageDTO) {
