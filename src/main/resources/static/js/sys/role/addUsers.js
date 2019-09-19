@@ -7,10 +7,10 @@ var overAllRoleUserRelIds = new Set();                // 选择要进行角色�
 $(document).ready(function () {
   overAllUserIds = new Set();
   overAllRoleUserRelIds = new Set();
-  //初始化角色用户列表，现实拥有该角色的用户列表
-  initRoleUsersTable();
   console.log("获取cookie中角色roleId（该roleId由角色列表页点击分配用户按钮时set到cookie[admin.sys.role.add.user.role.id]）:"+$.cookie("admin.sys.role.add.user.role.id"));
   var  roleId = $.cookie("admin.sys.role.add.user.role.id");
+  //初始化角色用户列表，现实拥有该角色的用户列表
+  initRoleUsersTable(roleId);
   //根据roleId+查询条件查询并展现列表
   $("#btn_query").click(function(){
     $("#table_admin_sys_role_list").bootstrapTable('refresh');
@@ -20,7 +20,7 @@ $(document).ready(function () {
   $("#btn_submit_modal_add_user").click(function () {
     addUsersToRole(roleId,overAllUserIds);
     $("#modal_add_user").modal("hide");
-    $("#table_user_has_role_list").bootstrapTable('refresh');
+    $("#table_user_has_role_list").bootstrapTable('refresh',{url: '/sys/admin/userRoleRel/listRoleOwners/'+roleId});
 
   });
 
@@ -185,9 +185,9 @@ function examineUsers(type,datas){            // 操作类型，选中的行
  * 初始化bootstraptable
  * 展示拥有该角色的用户列表
  */
-function initRoleUsersTable() {
+function initRoleUsersTable(roleId) {
   $('#table_user_has_role_list').bootstrapTable({
-    url: '/sys/admin/userRoleRel/listRoleOwners',
+    url: '/sys/admin/userRoleRel/listRoleOwners/'+roleId,
     method: 'post',
     queryParams: 'queryParams',
     queryParamsType: 'undefined',//如果queryParamsType = 'limit'，params对象包含：limit，offset，search，sort，order。否则，它包含：pageSize，pageNumber，searchText，sortName，sortOrder。
@@ -220,11 +220,11 @@ function initRoleUsersTable() {
         title: '用户名'
       },
       {
-        field: 'realName',
+        field: 'userRealName',
         title: '真实姓名',
       },
       {
-        field: 'status',
+        field: 'userStatus',
         title: '状态',
         formatter: 'statusFormatter'
       },
@@ -285,9 +285,9 @@ function operateFormatter(value, row, index) {
   // }
   // return operations.join('');
   return [
-    '<button type="button" class="RoleOfedit btn-small   btn-warning" style="margin-right:15px;"><i class="fa fa-pencil-square-o" ></i>&nbsp;修改</button>',
-    '<button type="button" class="RoleOfdelete btn-small  btn-danger" style="margin-right:15px;"><i class="fa fa-trash-o" ></i>&nbsp;删除</button>',
-    '<button type="button" class="RoleOfAddUser btn-small  btn-primary" style="margin-right:15px;"><i class="fa fa-group" ></i>&nbsp;分配用户</button>',
+    // '<button type="button" class="RoleOfedit btn-small   btn-warning" style="margin-right:15px;"><i class="fa fa-pencil-square-o" ></i>&nbsp;修改</button>',
+    '<button type="button" class="RoleOfDismissAuthorize btn-small  btn-danger" style="margin-right:15px;"><i class="fa fa-remove" ></i>&nbsp;解除授权</button>',
+    // '<button type="button" class="RoleOfAddUser btn-small  btn-primary" style="margin-right:15px;"><i class="fa fa-group" ></i>&nbsp;分配用户</button>',
   ].join('');
 
 }
@@ -312,15 +312,16 @@ window.operateEvents = {
   // 'click .RoleOfAddUser': function (e, value, row, index) {
   //   addUsersToRole(row.id);
   // },
-  'click .RoleOfdelete': function (e, value, row, index) {
-    Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
+  //解除授权
+  'click .RoleOfDismissAuthorize': function (e, value, row, index) {
+    Ewin.confirm({ message: "确认要将选择的用户解除授权吗？" }).on(function (e) {
       if (!e) {
         //点击取消按钮
         console.log("cancel");
       }else{
         //点击确定按钮
         console.log("confirm");
-        del(row.id);
+        auAuthorize(row.id);
       }
     });
 
@@ -331,19 +332,18 @@ window.operateEvents = {
   }
 };
 
-function del(id) {
-  // alert("del 方法 , id = " + id);
+function auAuthorize(id) {
   $.ajax({
-    type: "POST",
-    url: "/sys/admin/role/delete/" + id,
+    type: "GET",
+    url: "/sys/admin/role/auAuthorize/" + id,
     success: function (response) {
       console.log("删除成功." + JSON.stringify(response));
       // $("#table_menu_list").bootstrapTable('refresh');
-      $('#table_admin_sys_role_list').bootstrapTable('remove', {
+      $('#table_user_has_role_list').bootstrapTable('remove', {
         field: "id",   //此处的 “id”对应的是字段名
         values: [parseInt(id)]
       });
-      $('#table_admin_sys_role_list').bootstrapTable('refresh');
+      $('#table_user_has_role_list').bootstrapTable('refresh');
     }
 
   });

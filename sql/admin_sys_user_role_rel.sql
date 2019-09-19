@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `admin_sys_user_role_rel`;
 CREATE TABLE `admin_sys_user_role_rel` (
-  `id` bigint(64) NOT NULL,
+  `id` bigint(64) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` bigint(64) DEFAULT NULL COMMENT '用户id',
   `role_id` bigint(64) DEFAULT NULL COMMENT '角色id',
  `remark` varchar(500) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',

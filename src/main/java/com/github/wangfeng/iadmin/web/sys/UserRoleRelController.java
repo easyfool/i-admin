@@ -3,8 +3,10 @@ package com.github.wangfeng.iadmin.web.sys;
 
 import com.github.pagehelper.PageInfo;
 import com.github.wangfeng.iadmin.common.po.dto.AdminSysUserDTO;
+import com.github.wangfeng.iadmin.common.po.dto.AdminSysUserRoleRelDTO;
 import com.github.wangfeng.iadmin.common.po.dto.AdminSysUserRoleRelWithPageDTO;
 import com.github.wangfeng.iadmin.common.po.dto.BootstrapTableResultDTO;
+import com.github.wangfeng.iadmin.common.po.dto.UserWithRoleQueryDTO;
 import com.github.wangfeng.iadmin.common.po.entity.AdminSysUserDO;
 import com.github.wangfeng.iadmin.common.response.ResponseResult;
 import com.github.wangfeng.iadmin.service.AdminSysUserRoleRelService;
@@ -17,6 +19,7 @@ import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,14 +37,15 @@ public class UserRoleRelController {
      * 查询拥有角色** 的所有用户
      * @return
      */
-    @RequestMapping(value = "/listRoleOwners", method = RequestMethod.POST)
+    @RequestMapping(value = "/listRoleOwners/{roleId}", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseResult listRoleOwners(@RequestBody AdminSysUserRoleRelWithPageDTO adminSysUserQueryWithPageDTO) {
-        PageInfo<AdminSysUserDO> userListPage = adminSysUserRoleRelService
-                .findRoleOwners(adminSysUserQueryWithPageDTO);
+    public ResponseResult listRoleOwners(@PathVariable Long roleId, @RequestBody UserWithRoleQueryDTO userWithRoleQueryDTO) {
+        userWithRoleQueryDTO.setRoleId(roleId);
+        PageInfo<AdminSysUserRoleRelDTO> userListPage = adminSysUserRoleRelService
+                .findRoleOwners(userWithRoleQueryDTO);
 
-        BootstrapTableResultDTO<AdminSysUserDTO> resultTableData = new BootstrapTableResultDTO<>();
-        resultTableData.setRows(buildUserDTOList(userListPage.getList()));
+        BootstrapTableResultDTO<AdminSysUserRoleRelDTO> resultTableData = new BootstrapTableResultDTO<>();
+        resultTableData.setRows(userListPage.getList());
         resultTableData.setTotal(userListPage.getTotal());
 
         ResponseResult responseResult = new ResponseResult();

@@ -7,6 +7,7 @@ import com.github.wangfeng.iadmin.common.po.entity.AdminSysUserDO;
 import com.github.wangfeng.iadmin.common.response.ResponseResult;
 import com.github.wangfeng.iadmin.service.AdminSysRoleService;
 
+import com.github.wangfeng.iadmin.service.AdminSysUserRoleRelService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +32,9 @@ public class RoleController {
 
     @Autowired
     private AdminSysRoleService adminSysRoleService;
+
+    @Autowired
+    private AdminSysUserRoleRelService adminSysUserRoleRelService;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public String roleManageHomePage() {
@@ -140,8 +144,21 @@ public class RoleController {
     @RequestMapping(value = "/{roleId}/addUsers", method = RequestMethod.POST)
     @ResponseBody
     public ResponseResult addUsersToRole(@PathVariable Long roleId, @RequestBody IdsDTO userIds) {
-        adminSysRoleService.batchAddUsersToRole(roleId,userIds.getIds());
+        adminSysRoleService.batchAddUsersToRole(roleId, userIds.getIds());
         return ResponseResult.simpleSuccessResponse();
+    }
+
+
+    /**
+     * 解除授权
+     * @return
+     */
+    @RequestMapping(value = "/auAuthorize/{userRoleRelId}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseResult auAuthorize(@PathVariable Long userRoleRelId) {
+        adminSysUserRoleRelService.remove(userRoleRelId);
+        ResponseResult responseResult = ResponseResult.simpleSuccessResponse();
+        return responseResult;
     }
 
 

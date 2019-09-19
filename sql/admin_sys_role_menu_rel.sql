@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS `admin_sys_role_menu_rel`;
 CREATE TABLE `admin_sys_role_menu_rel` (
-  `id` bigint(64) NOT NULL COMMENT '主键',
+  `id` bigint(64) unsigned NOT NULL AUTO_INCREMENT,
   `role_id` bigint(64) DEFAULT NULL  COMMENT '角色id',
   `menu_id` bigint(64) DEFAULT NULL COMMENT '菜单(权限id)',
  `remark` varchar(500) COLLATE utf8mb4_bin DEFAULT NULL COMMENT '备注',
