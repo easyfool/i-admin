@@ -34,6 +34,8 @@ $(document).ready(function () {
     $("#modal_add_role").modal("show");
 
   });
+  showMenuTree();
+
 
 
 });
@@ -135,6 +137,7 @@ function operateFormatter(value, row, index) {
     '<button type="button" class="RoleOfedit btn-small   btn-warning" style="margin-right:15px;"><i class="fa fa-pencil-square-o" ></i>&nbsp;修改</button>',
     '<button type="button" class="RoleOfdelete btn-small  btn-danger" style="margin-right:15px;"><i class="fa fa-trash-o" ></i>&nbsp;删除</button>',
     '<button type="button" class="RoleOfAddUser btn-small  btn-primary" style="margin-right:15px;"><i class="fa fa-group" ></i>&nbsp;分配用户</button>',
+    '<button type="button" class="RoleOfAddMenu btn-small  btn-primary" style="margin-right:15px;"><i class="fa fa-book" ></i>&nbsp;菜单(权限)</button>',
   ].join('');
 
 }
@@ -164,6 +167,10 @@ window.operateEvents = {
   'click .RoleOfAddUser': function (e, value, row, index) {
     addUsersToRole(row.id);
   },
+  'click .RoleOfAddMenu': function (e, value, row, index) {
+    addMenusToRole(row.id);
+  },
+
   'click .RoleOfdelete': function (e, value, row, index) {
     Ewin.confirm({ message: "确认要删除选择的数据吗？" }).on(function (e) {
       if (!e) {
@@ -179,6 +186,15 @@ window.operateEvents = {
     update(row);
   }
 };
+
+/**
+ * 角色权限设置
+ * @param roleId
+ */
+function addMenusToRole(roleId){
+  $("txt_menu_modal_role_id").val(roleId);
+  $("#modal_menu_tree").modal("show");
+}
 
 /**
  * 删除
@@ -207,7 +223,7 @@ function del(id) {
  * @param row
  */
 function update(row) {
-  $("#txt_role_id").val(row.id);
+  $("#txt_update_modal_role_id").val(row.id);
   $("#txt_update_role_name").val(row.roleName);
   $("#txt_update_role_code").val(row.roleCode);
   $("#txt_update_remark").val(row.remark);
@@ -360,4 +376,77 @@ function initAddFormValidator(){
     }
   });
 
+}
+
+
+
+var tree = [
+  {
+    text: "Parent 1",
+    nodes: [
+      {
+        text: "Child 1",
+        selectable: true, // 是否可选中，比如仅仅根节点设置为不可选中
+        state: { // 初始化的状态（支持 4 种）
+          checked: true, // 是否可勾选
+          disabled: false, // 是否可用
+          expanded: true, // 是否可折叠
+          selected: false // 是否可选中
+        },
+        tags: ['available'], // 节点右侧徽章
+        nodes: [
+          {
+            text: "Grandchild 1"
+          },
+          {
+            text: "Grandchild 2"
+          }
+        ]
+      },
+      {
+        text: "Child 2"
+      }
+    ]
+  },
+  {
+    text: "Parent 2"
+  },
+  {
+    text: "Parent 3"
+  },
+  {
+    text: "Parent 4"
+  },
+  {
+    text: "Parent 5"
+  }
+];
+
+function getTree() {
+  // Some logic to retrieve, or generate tree structure
+  return tree;
+}
+
+
+function showMenuTree() {
+  $('#menuPermissionTree').treeview({
+    data: getTree(),
+    showCheckbox: true,
+    // checkedIcon: 'glyphicon glyphicon-dashboard', // 勾选图标，需要设置 option: showCheck 为 true 才有效
+    // uncheckedIcon: 'glyphicon glyphicon-heart-empty', // 勾选图标，需要设置 option: showCheck 为 true 才有效
+    // collapseIcon: 'glyphicon glyphicon-flash', // 折叠图标，默认 min
+    // expandIcon: 'glyphicon glyphicon-earphone', // 展开图标，默认 plus
+    // color: 'orange', // 此处设置的属性会全局生效（除非节点对象自己额外设置）
+    // emptyIcon: 'glyphicon glyphicon-record', // 叶子节点图标，默认为 glyphicon，即空
+    // enableLinks: true, // 启用超链接，需要在节点对象设置 href 属性
+    // highlightSearchResults: true, // 高亮搜索结果，待研究
+    // // highlightSelected: false, // 高亮选中，默认 true
+    // levels: 5, // 默认状态展开的层级，默认 2
+    // multiSelect: true, // 是否允许多选
+    // showIcon: false, // 是否显示默认状态的图标
+    // nodeIcon: 'glyphicon glyphicon-usd', // 默认状态节点图标，全局生效，除非节点对象自己额外设置
+    // onhoverColor: 'gray', // 默认状态下，鼠标经过节点颜色
+    // selectedIcon: 'glyphicon glyphicon-floppy-disk', // 选中状态的图标，全局生效，除非节点对象自己额外设置
+    showTags: true // 是否显示右侧徽章
+  });
 }

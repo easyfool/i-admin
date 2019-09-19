@@ -13,6 +13,7 @@
   <link rel="stylesheet"
         th:href="@{/vendor/bootstrap-table/v1.15.4/extensions/page-jump-to/bootstrap-table-page-jump-to.min.css}">
   <link rel="stylesheet" th:href="@{/vendor/bootstrap-validator/css/bootstrapValidator.min.css}">
+  <link rel="stylesheet" th:href="@{/vendor/bootstrap-treeview/v1.2.0/bootstrap-treeview.min.css}">
   <style>
     .container{
       margin: 0;
@@ -126,7 +127,7 @@
         <div class="modal-body">
 
           <form id="form_update_role_detail">
-            <input id="txt_role_id" name="id" hidden/>
+            <input id="txt_update_modal_role_id" name="id" hidden/>
             <div class="form-group">
               <label for="txt_update_role_name">角色名称</label>
               <input name="roleName" id="txt_update_role_name" type="text" class="form-control"
@@ -153,6 +154,30 @@
   </div>
   <!--modal 更新角色 end-->
 
+  <!--modal 菜单权限 start-->
+  <div id="modal_menu_tree" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">授权功能菜单</h4>
+        </div>
+        <div class="modal-body">
+
+          <div id="menuPermissionTree"></div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+          <button id="btn_menu_tree_modal" type="button" class="btn btn-primary">保存</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--modal 菜单权限 end-->
+
 </div>
 </body>
 <footer>
@@ -168,6 +193,7 @@
   <script th:src="@{/vendor/adminlte-with-iframe/dist/js/app_iframe.js}"></script>
   <script th:src="@{/vendor/bootstrap-validator/js/bootstrapValidator.min.js}"></script>
   <script th:src="@{/vendor/bootstrap-validator/js/language/zh_CN.js}"></script>
+  <script th:src="@{/vendor/bootstrap-treeview/v1.2.0/bootstrap-treeview.min.js}"></script>
   <script th:src="@{/js/formSerializeToJson.js}"></script>
   <script th:src="@{/js/Ewin.js}"></script>
   <script th:src="@{/js/sys/role/main.js}"></script>
