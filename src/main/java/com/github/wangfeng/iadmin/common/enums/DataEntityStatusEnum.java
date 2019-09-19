@@ -17,7 +17,7 @@ public enum DataEntityStatusEnum {
     STATUS_AUDIT(4, "授权"),
     STATUS_AUDIT_BACK(5, ""),
     STATTUS_BANNED(6, "禁用"),
-    //STATTUS_LOCKED(7, "锁定"),
+    STATTUS_LOCKED(7, "锁定"),
     //STATTUS_LOCKED(8, "锁定"),
     STATUS_DRAFT(9, "锁定")
     ;

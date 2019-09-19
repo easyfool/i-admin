@@ -53,6 +53,25 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
         return adminSysUserMapper.updateByPrimaryKeySelective(adminSysUserDO);
     }
 
+    @Override
+    public long countByLoginName(String loginName) {
+        return adminSysUserMapper.countByLoginName(loginName);
+    }
+
+    @Override
+    public int removeUsers(List<Long> ids) {
+        return adminSysUserMapper.updateUsersStatus(ids, DataEntityStatusEnum.STATTUS_DELTED.getStatusCode());
+    }
+
+    @Override
+    public int lockUsers(List<Long> ids) {
+        return adminSysUserMapper.updateUsersStatus(ids, DataEntityStatusEnum.STATTUS_LOCKED.getStatusCode());
+    }
+
+    @Override
+    public int unlockUsers(List<Long> ids) {
+        return adminSysUserMapper.updateUsersStatus(ids, DataEntityStatusEnum.STATTUS_NORMAL.getStatusCode());
+    }
 
 
 }

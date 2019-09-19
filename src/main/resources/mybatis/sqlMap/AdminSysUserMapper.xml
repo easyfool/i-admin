@@ -83,6 +83,11 @@
 
     </where>
   </select>
+  <select id="countByLoginName" resultType="java.lang.Long">
+    select count(1)
+    from admin_sys_user
+    where login_name = #{loginName}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--
       WARNING - @mbg.generated
@@ -298,5 +303,14 @@
       `update_date` = #{updateDate,jdbcType=TIMESTAMP},
       `update_by` = #{updateBy,jdbcType=VARCHAR}
     where `id` = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateUsersStatus">
+    update admin_sys_user
+    set status = #{status}
+    where id  in
+    <foreach collection="ids" index="index" item="id" open="(" separator="," close=")">
+      #{id}
+    </foreach>
   </update>
 </mapper>

@@ -4,6 +4,7 @@ import com.github.wangfeng.iadmin.common.po.dto.AdminSysUserQueryWithPageDTO;
 import com.github.wangfeng.iadmin.common.po.entity.AdminSysUserDO;
 
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 public interface AdminSysUserMapper {
     /**
@@ -56,4 +57,7 @@ public interface AdminSysUserMapper {
 
     List<AdminSysUserDO> selectAllWithFuzzyConditions(AdminSysUserQueryWithPageDTO adminSysUserQueryWithPageDTO);
 
+    long countByLoginName(@Param("loginName") String loginName);
+
+    int updateUsersStatus(List<Long> ids, int status);
 }

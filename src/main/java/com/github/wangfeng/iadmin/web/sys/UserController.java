@@ -5,6 +5,8 @@ import com.github.wangfeng.iadmin.common.enums.DataEntityStatusEnum;
 import com.github.wangfeng.iadmin.common.po.dto.AdminSysUserDTO;
 import com.github.wangfeng.iadmin.common.po.dto.AdminSysUserQueryWithPageDTO;
 import com.github.wangfeng.iadmin.common.po.dto.BootstrapTableResultDTO;
+import com.github.wangfeng.iadmin.common.po.dto.BootstrapValidatorAjaxResultDTO;
+import com.github.wangfeng.iadmin.common.po.dto.IdsDTO;
 import com.github.wangfeng.iadmin.common.po.entity.AdminSysUserDO;
 import com.github.wangfeng.iadmin.common.response.ResponseResult;
 import com.github.wangfeng.iadmin.service.AdminSysUserService;
@@ -55,7 +57,6 @@ public class UserController {
     }
 
 
-
     private List<AdminSysUserDTO> buildUserDTOList(List<AdminSysUserDO> list) {
         List<AdminSysUserDTO> resultList = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(list)) {
@@ -100,6 +101,51 @@ public class UserController {
         AdminSysUserDO userToRemove = new AdminSysUserDO();
         userToRemove.setId(userId);
         adminSysUserService.removeUser(userToRemove);
+        ResponseResult responseResult = new ResponseResult();
+        responseResult.setSuccess(Boolean.TRUE);
+        return responseResult;
+    }
+
+    @RequestMapping(value = "isUnique", method = RequestMethod.GET)
+    @ResponseBody
+    public BootstrapValidatorAjaxResultDTO isLoginNameUnique(String loginName) {
+        long total = adminSysUserService.countByLoginName(loginName);
+        BootstrapValidatorAjaxResultDTO resultDTO = new BootstrapValidatorAjaxResultDTO();
+
+        if (total > 0) {
+            resultDTO.setValid(Boolean.FALSE);
+        } else {
+            resultDTO.setValid(Boolean.TRUE);
+        }
+
+        return resultDTO;
+    }
+
+    @RequestMapping(value = "/deleteSelected", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseResult deleteSelectUsers(@RequestBody IdsDTO idsDTO) {
+        log.info(idsDTO.toString());
+        adminSysUserService.removeUsers(idsDTO.getIds());
+        ResponseResult responseResult = new ResponseResult();
+        responseResult.setSuccess(Boolean.TRUE);
+        return responseResult;
+    }
+
+    @RequestMapping(value = "/lockSelected", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseResult lockSelectUsers(@RequestBody IdsDTO idsDTO) {
+        log.info(idsDTO.toString());
+        adminSysUserService.lockUsers(idsDTO.getIds());
+        ResponseResult responseResult = new ResponseResult();
+        responseResult.setSuccess(Boolean.TRUE);
+        return responseResult;
+    }
+
+    @RequestMapping(value = "/unlockSelected", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseResult unlockSelected(@RequestBody IdsDTO idsDTO) {
+        log.info(idsDTO.toString());
+        adminSysUserService.unlockUsers(idsDTO.getIds());
         ResponseResult responseResult = new ResponseResult();
         responseResult.setSuccess(Boolean.TRUE);
         return responseResult;
