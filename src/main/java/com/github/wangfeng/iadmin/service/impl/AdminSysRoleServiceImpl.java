@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.github.wangfeng.iadmin.common.enums.DataEntityStatusEnum;
 import com.github.wangfeng.iadmin.common.po.dto.AdminSysRoleQueryWithPageDTO;
+import com.github.wangfeng.iadmin.common.po.dto.IdsDTO;
 import com.github.wangfeng.iadmin.common.po.entity.AdminSysRoleDO;
 import com.github.wangfeng.iadmin.dao.AdminSysRoleMapper;
 import com.github.wangfeng.iadmin.service.AdminSysRoleService;
@@ -60,5 +61,10 @@ public class AdminSysRoleServiceImpl implements AdminSysRoleService {
     @Override
     public long countByRoleName(String roleName) {
         return adminSysRoleMapper.countByRoleName(roleName);
+    }
+
+    @Override
+    public int batchAddUsersToRole(Long roleId, List<Long> userIds) {
+        return adminSysRoleMapper.batchAddUsersToRole(roleId,userIds);
     }
 }

@@ -56,6 +56,21 @@ public class UserController {
         return responseResult;
     }
 
+    @RequestMapping(value = "/listUsers/hasNoRole/{roleId}", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseResult listUsersWithouRole(@PathVariable Long roleId,@RequestBody AdminSysUserQueryWithPageDTO adminSysUserQueryWithPageDTO) {
+        PageInfo<AdminSysUserDO> userListPage = adminSysUserService.findUserWithoutRoleListPage(roleId,adminSysUserQueryWithPageDTO);
+
+        BootstrapTableResultDTO<AdminSysUserDTO> resultTableData = new BootstrapTableResultDTO<>();
+        resultTableData.setRows(buildUserDTOList(userListPage.getList()));
+        resultTableData.setTotal(userListPage.getTotal());
+
+        ResponseResult responseResult = new ResponseResult();
+        responseResult.setContent(resultTableData);
+        responseResult.setSuccess(Boolean.TRUE);
+        return responseResult;
+    }
+
 
     private List<AdminSysUserDTO> buildUserDTOList(List<AdminSysUserDO> list) {
         List<AdminSysUserDTO> resultList = new ArrayList<>();

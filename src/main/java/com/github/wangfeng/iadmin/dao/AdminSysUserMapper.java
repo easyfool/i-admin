@@ -1,5 +1,6 @@
 package com.github.wangfeng.iadmin.dao;
 
+import com.github.pagehelper.PageInfo;
 import com.github.wangfeng.iadmin.common.po.dto.AdminSysUserQueryWithPageDTO;
 import com.github.wangfeng.iadmin.common.po.entity.AdminSysUserDO;
 
@@ -60,4 +61,6 @@ public interface AdminSysUserMapper {
     long countByLoginName(@Param("loginName") String loginName);
 
     int updateUsersStatus(List<Long> ids, int status);
+
+    List<AdminSysUserDO> findUserWithoutRoleListPage(Long roleId);
 }

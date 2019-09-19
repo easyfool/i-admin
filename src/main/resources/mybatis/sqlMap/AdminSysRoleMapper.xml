@@ -59,12 +59,12 @@
             </if>
         </where>
     </select>
-    <select id="countByRoleCode" resultType="_long">
+    <select id="countByRoleCode" resultType="long">
         select count(1) from admin_sys_role
 
         where role_code = #{roleCode}
     </select>
-    <select id="countByRoleName" resultType="_long">
+    <select id="countByRoleName" resultType="long">
    select count(1) from admin_sys_role
 
         where role_Name = #{roleName}
@@ -166,6 +166,13 @@
                 #{status,jdbcType=INTEGER},
             </if>
         </trim>
+    </insert>
+    <insert id="batchAddUsersToRole">
+        insert into admin_sys_user_role_rel (role_id,user_id)
+        values
+        <foreach collection="userIds" item="userId" index="index" separator="," >
+            (#{roleId},#{userId})
+        </foreach>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.github.wangfeng.iadmin.common.po.entity.AdminSysRoleDO">
         <!--

@@ -20,4 +20,10 @@ public class ResponseResult<T> implements Serializable {
     private T content;
     private String errorCode;
 
+    public static ResponseResult simpleSuccessResponse() {
+        ResponseResult responseResult = new ResponseResult();
+        responseResult.setSuccess(Boolean.TRUE);
+        return responseResult;
+    }
+
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -130,6 +131,17 @@ public class RoleController {
 
         return resultDTO;
 
+    }
+
+    /**
+     * 为角色增加用户
+     * @return
+     */
+    @RequestMapping(value = "/{roleId}/addUsers", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseResult addUsersToRole(@PathVariable Long roleId, @RequestBody IdsDTO userIds) {
+        adminSysRoleService.batchAddUsersToRole(roleId,userIds.getIds());
+        return ResponseResult.simpleSuccessResponse();
     }
 
 

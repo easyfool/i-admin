@@ -151,8 +151,9 @@ function addUsersToRole(roleId){
     title: '角色分配用户',
     close: true,
     url: '/sys/admin/role/addUsers',
-    targetType: "ajax-tab",
+    targetType: "iframe-tab",
   })
+  App.fixIframeCotent();
 }
 
 /**

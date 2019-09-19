@@ -1,6 +1,7 @@
 package com.github.wangfeng.iadmin.dao;
 
 import com.github.wangfeng.iadmin.common.po.dto.AdminSysRoleQueryWithPageDTO;
+import com.github.wangfeng.iadmin.common.po.dto.IdsDTO;
 import com.github.wangfeng.iadmin.common.po.entity.AdminSysRoleDO;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
@@ -63,4 +64,8 @@ public interface AdminSysRoleMapper {
     long countByRoleName(@Param("roleName") String roleName);
 
     long countByRoleCode(@Param("roleCode") String roleCode);
+
+
+    int batchAddUsersToRole(Long roleId, List<Long> userIds);
+
 }

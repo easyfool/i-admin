@@ -73,5 +73,16 @@ public class AdminSysUserServiceImpl implements AdminSysUserService {
         return adminSysUserMapper.updateUsersStatus(ids, DataEntityStatusEnum.STATTUS_NORMAL.getStatusCode());
     }
 
+    @Override
+    public PageInfo<AdminSysUserDO> findUserWithoutRoleListPage(Long roleId,
+            AdminSysUserQueryWithPageDTO adminSysUserQueryWithPageDTO) {
+        Integer pageNumber = adminSysUserQueryWithPageDTO.getPageNumber();
+        Integer pageSize = adminSysUserQueryWithPageDTO.getPageSize();
+
+        PageHelper.startPage(pageNumber, pageSize);
+        List<AdminSysUserDO> adminSysUsers = adminSysUserMapper.findUserWithoutRoleListPage(roleId);
+        return new PageInfo<>(adminSysUsers);
+    }
+
 
 }

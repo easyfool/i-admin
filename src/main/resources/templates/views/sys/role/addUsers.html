@@ -12,6 +12,7 @@
   <link rel="stylesheet" th:href="@{/vendor/font-awesome/v4.7.0/css/font-awesome.min.css}">
   <link rel="stylesheet"
         th:href="@{/vendor/bootstrap-table/v1.15.4/extensions/page-jump-to/bootstrap-table-page-jump-to.min.css}">
+  <link rel="stylesheet" th:href="@{/vendor/bootstrap-validator/css/bootstrapValidator.min.css}">
   <style>
     .container{
       margin: 0;
@@ -33,28 +34,26 @@
     table{
       border: 1px solid #e6e6e6
     }
-  </style>
 
+  </style>
 </head>
 
 <body>
 
 <div class="container" >
   <div class="row box-header">
-    <div class="col-lg-offset-8">
+    <div class="pull-right">
       <button id="btn_add_user" type="button" class="RoleOfadd btn btn-primary">
         <i class="fa fa-plus-square-o"></i>&nbsp;新增用户
       </button>
     </div>
   </div>
   <!--查询条件表单-->
-  <div class="row">
     <form id="form_search" class="form-inline" role="form">
       <div class="form-group">
         <label for="txt_query_role_code" class="control-label">角色编码</label>
         <input type="text" name="roleCode" id="txt_query_role_code" class="form-control">
       </div>
-      &nbsp;&nbsp;&nbsp;&nbsp;
       <div class="form-group">
         <label for="txt_query_role_name" class="control-label">角色名称</label>
         <input type="text" name="nickName" id="txt_query_role_name" class="form-control">
@@ -64,12 +63,11 @@
         <input type="reset" value="重置" class="btn btn-default">
       </div>
     </form>
-  </div>
 
   <!-- 加载bootstraptable的表格 -->
   <table id="table_user_has_role_list" data-show-jump-to="true"></table>
 
-  <div id="modal_add_user" class="modal fade" tabindex="-1" role="dialog">
+  <div id="modal_add_user" class="modal fade" tabindex="-1" role="dialog"  style="height: 600px;">
     <!--                <input id="txt_modal_type" name="modalType" hidden/>-->
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -79,25 +77,33 @@
           </button>
           <h4 class="modal-title">添加用户</h4>
         </div>
-        <div class="modal-body" style="height: 500px;">
+        <div class="modal-body" style="height: 80%;">
 
-          <form id="form_add_user_detail" class="form-inline" role="form">
+          <form id="form_search_user_to_add" class="form-inline" role="form">
             <div class="form-group">
               <label for="txt_query_login_name">用户名</label>
-              <input name="roleName" id="txt_query_login_name" type="text" class="form-control" placeholder="用户名">
+              <input name="loginName" id="txt_query_login_name" type="text" class="form-control" placeholder="用户名">
             </div>
+
             <div class="form-group">
-              <label>昵称</label>
-              <input name="roleCode" type="text" class="form-control" placeholder="昵称">
+              <label for="txt_query_user_status">状态</label>
+<!--              <div id="div_query_user_status" class="pull-right">-->
+                <select id="txt_query_user_status" name="status" class="selectpicker form-control">
+                  <option value="0">正常</option>
+                  <option value="1">删除</option>
+                  <option value="7">锁定</option>
+                </select>
+<!--              </div>-->
+<!--              <input id="txt_query_user_status" name="statsu" type="text" class="form-control" placeholder="昵称">-->
             </div>
+
             <div class="form-group pull-right" style="margin-top:5px">
-              <button type="button" class="btn btn-sm btn-primary">查询</button>
+              <button id="btn_query_user" type="button" class="btn btn-sm btn-primary">查询</button>
               <button type="reset" class="btn btn-sm btn-default">重置</button>
             </div>
 
           </form>
-          <table id="table_admin_sys_user_list" class="col-lg-8" style="margin-top: 5px;"></table>
-
+          <table id="table_admin_sys_user_list"  style="margin-top: 5px;"></table>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -106,9 +112,6 @@
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
-
-
-
 
 </div>
 </body>
@@ -126,5 +129,7 @@
   <script th:src="@{/js/Ewin.js}"></script>
   <script th:src="@{/vendor/adminlte-with-iframe/dist/js/app_iframe.js}"></script>
   <script th:src="@{/js/sys/role/addUsers.js}"></script>
+  <!--数据状态转换function-->
+  <script th:src="@{/js/common/dataEntityStatusFormatter.js}"></script>
 </footer>
 </html>

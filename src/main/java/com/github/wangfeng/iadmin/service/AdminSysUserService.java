@@ -22,4 +22,12 @@ public interface AdminSysUserService {
     int lockUsers(List<Long> ids);
 
     int unlockUsers(List<Long> ids);
+
+    /**
+     * 查询没有角色**的用户列表
+     * @param roleId
+     * @param adminSysUserQueryWithPageDTO
+     * @return
+     */
+    PageInfo<AdminSysUserDO> findUserWithoutRoleListPage(Long roleId, AdminSysUserQueryWithPageDTO adminSysUserQueryWithPageDTO);
 }
