@@ -5,6 +5,8 @@
 var overAllUserIds = new Set();                // 选择要添加的用户
 var overAllRoleUserRelIds = new Set();                // 选择要进行角色操作(删除)的记录
 $(document).ready(function () {
+
+  console.log("roleId:"+$("#txt_role_id").val());
   overAllUserIds = new Set();
   overAllRoleUserRelIds = new Set();
   console.log("获取cookie中角色roleId（该roleId由角色列表页点击分配用户按钮时set到cookie[admin.sys.role.add.user.role.id]）:"+$.cookie("admin.sys.role.add.user.role.id"));

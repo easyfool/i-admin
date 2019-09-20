@@ -18,6 +18,7 @@ import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,7 +48,8 @@ public class RoleController {
      * @return
      */
     @RequestMapping(value = "/addUsers", method = RequestMethod.GET)
-    public String addUsersToRolePage() {
+    public String addUsersToRolePage(@RequestParam("roleId") Long roleId, Model model) {
+        model.addAttribute("roleId", roleId);
         return "views/sys/role/addUsers";
     }
 

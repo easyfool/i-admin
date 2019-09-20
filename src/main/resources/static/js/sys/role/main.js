@@ -153,7 +153,7 @@ function addUsersToRole(roleId){
     text: '角色分配用户',
     title: '角色分配用户',
     close: true,
-    url: '/sys/admin/role/addUsers',
+    url: '/sys/admin/role/addUsers?roleId='+roleId,
     targetType: "iframe-tab",
   })
   App.fixIframeCotent();
